@@ -1,0 +1,2 @@
+USER_LIST_CACHE_PREFIX = "user_list"
+USER_DETAIL_CACHE_PREFIX = "user_detail"

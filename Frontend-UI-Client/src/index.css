@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Merriweather:wght@300;400;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fuerza el fondo blanco y texto del color primario para los <select> */
+select {
+  background-color: #ffffff !important;
+  color: #17202a !important; /* Utilizamos el valor de text.primary */
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+}
+
+/* Fuerza el fondo y el color de texto en las <option> */
+select option {
+  background-color: #ffffff !important;
+  color: #17202a !important;
+}
+
+@layer base {
+  html {
+    font-size: 90%;
+  }
+}

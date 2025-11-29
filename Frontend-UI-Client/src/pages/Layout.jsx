@@ -1,0 +1,43 @@
+import React, { useState } from 'react';
+import Navbar from "../components/common/Navbar";
+import Sidebar from "../components/common/Sidebar";
+import Footer from "../components/common/Footer";
+import { useAuth } from "../context/AuthProvider";
+import Spinner from "../components/ui/Spinner";
+import NotificationsToaster from "@/features/notifications/components/NotificationsToaster";
+
+const Layout = ({ children, isLoading = false }) => {
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+    const { profileImage } = useAuth();
+
+    const handleSidebarToggle = (isCollapsed) => {
+        setSidebarCollapsed(isCollapsed);
+    };
+
+    return (
+        <div className="flex flex-col min-h-screen bg-background-100 text-text-primary relative">
+            <Navbar key={profileImage || 'default'} />
+
+            <div className="flex flex-1 relative bg-background-100">
+                <Sidebar onToggle={handleSidebarToggle} />
+
+                <div
+                    className={`flex-1 min-h-[calc(100vh-64px)] transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-64'
+                        } bg-background-100 p-4`}
+                >
+                    {children}
+                </div>
+
+                {isLoading && (
+                    <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+                        <Spinner size="8" color="text-primary-500" />
+                    </div>
+                )}
+            </div>
+            <NotificationsToaster />
+            <Footer />
+        </div>
+    );
+};
+
+export default Layout;
