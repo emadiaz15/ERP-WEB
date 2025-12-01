@@ -1,74 +1,216 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',
-  ],
+const config = {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        primary: {
-          500: '#1f618d', // Color primario
-          600: '#23495d', // Color primario para hover
+        brand: {
+          25: '#f2f7ff',
+          50: '#ecf3ff',
+          100: '#dde9ff',
+          200: '#c2d6ff',
+          300: '#9cb9ff',
+          400: '#7592ff',
+          500: '#465fff',
+          600: '#3641f5',
+          700: '#2a31d8',
+          800: '#252dae',
+          900: '#262e89',
+          950: '#161950',
         },
-        secondary: {
-          500: '#168769', // Color de acento
-          600: '#1f618d', // Color de acento más claro
-        },
-        background: {
-          100: '#e5e7e9', // Fondo principal
-          200: '#aeb6bf', // Fondo secundario
-        },
-        text: {
-          primary: '#17202a', // Texto principal
-          secondary: '#1c2638', // Texto secundario
-          white: '#f4f6f7', // Texto blanco
-        },
-        accent: {
-          400: '#9b222b', // Para hover o acentos más oscuros
-          500: '#f14e52', // Color de acento (usado para botones secundarios o detalles)
+        gray: {
+          25: '#fcfcfd',
+          50: '#f9fafb',
+          100: '#f2f4f7',
+          200: '#e4e7ec',
+          300: '#d0d5dd',
+          400: '#98a2b3',
+          500: '#667085',
+          600: '#475467',
+          700: '#344054',
+          800: '#1d2939',
+          900: '#101828',
+          950: '#0c111d',
+          dark: '#1a2231',
         },
         success: {
-          500: '#28a745', // Éxito
-          600: '#1e7e34', // Éxito para hover
-        },
-        warning: {
-          500: '#ffc107', // Advertencia
-          600: '#e6a800', // Advertencia para hover
+          25: '#f6fef9',
+          50: '#ecfdf3',
+          100: '#d1fadf',
+          200: '#a6f4c5',
+          300: '#6ce9a6',
+          400: '#32d583',
+          500: '#12b76a',
+          600: '#039855',
+          700: '#027a48',
+          800: '#05603a',
+          900: '#054f31',
+          950: '#053321',
         },
         error: {
-          500: '#dc3545', // Error
-          600: '#c82333', // Error para hover
+          25: '#fffbfa',
+          50: '#fef3f2',
+          100: '#fee4e2',
+          200: '#fecdca',
+          300: '#fda29b',
+          400: '#f97066',
+          500: '#f04438',
+          600: '#d92d20',
+          700: '#b42318',
+          800: '#912018',
+          900: '#7a271a',
+          950: '#55160c',
+        },
+        warning: {
+          25: '#fffcf5',
+          50: '#fffaeb',
+          100: '#fef0c7',
+          200: '#fedf89',
+          300: '#fec84b',
+          400: '#fdb022',
+          500: '#f79009',
+          600: '#dc6803',
+          700: '#b54708',
+          800: '#93370d',
+          900: '#7a2e0e',
+          950: '#4e1d09',
         },
         info: {
-          500: '#17a2b8', // Información
-          600: '#138496', // Información para hover
+          25: '#f5fbff',
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#b9e6fe',
+          300: '#7cd4fd',
+          400: '#36bffa',
+          500: '#0ba5ec',
+          600: '#0086c9',
+          700: '#026aa2',
+          800: '#065986',
+          900: '#0b4a6f',
+          950: '#062c41',
         },
-        neutral: {
-          500: '#6c757d', // Neutro
-          600: '#5a6268', // Neutro para hover
+        orange: {
+          25: '#fffaf5',
+          50: '#fff6ed',
+          100: '#ffead5',
+          200: '#fddcab',
+          300: '#feb273',
+          400: '#fd853a',
+          500: '#fb6514',
+          600: '#ec4a0a',
+          700: '#c4320a',
+          800: '#9c2a10',
+          900: '#7e2410',
+          950: '#511c10',
         },
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
-        serif: ['Merriweather', 'serif'],
+        outfit: ['Outfit', 'sans-serif'],
       },
-      borderRadius: {
-        '4xl': '2rem',
+      fontSize: {
+        'title-2xl': ['72px', { lineHeight: '90px' }],
+        'title-xl': ['60px', { lineHeight: '72px' }],
+        'title-lg': ['48px', { lineHeight: '60px' }],
+        'title-md': ['36px', { lineHeight: '44px' }],
+        'title-sm': ['30px', { lineHeight: '38px' }],
+        'theme-xl': ['20px', { lineHeight: '30px' }],
+        'theme-sm': ['14px', { lineHeight: '20px' }],
+        'theme-xs': ['12px', { lineHeight: '18px' }],
       },
-      transitionProperty: {
-        colors: 'background-color, border-color, color, fill, stroke',
+      boxShadow: {
+        'theme-xs': '0px 1px 2px 0px rgba(16, 24, 40, 0.05)',
+        'theme-sm': '0px 1px 3px 0px rgba(16, 24, 40, 0.1), 0px 1px 2px 0px rgba(16, 24, 40, 0.06)',
+        'theme-md': '0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06)',
+        'theme-lg': '0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03)',
+        'theme-xl': '0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)',
+        'focus-ring': '0px 0px 0px 4px rgba(70, 95, 255, 0.12)',
+      },
+      dropShadow: {
+        '4xl': ['0 35px 35px rgba(0, 0, 0, 0.25)', '0 45px 65px rgba(0, 0, 0, 0.15)'],
+      },
+      zIndex: {
+        '1': '1',
+        '9': '9',
+        '99': '99',
+        '999': '999',
+        '9999': '9999',
+        '99999': '99999',
+        '999999': '999999',
+      },
+      screens: {
+        '2xsm': '375px',
+        'xsm': '425px',
+        '3xl': '2000px',
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.2s ease-in',
+        'slide-up': 'slideUp 0.3s ease-out',
+        'slide-down': 'slideDown 0.3s ease-out',
+        'slide-left': 'slideLeft 0.3s ease-out',
+        'slide-right': 'slideRight 0.3s ease-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        slideDown: {
+          '0%': { transform: 'translateY(-10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        slideLeft: {
+          '0%': { transform: 'translateX(10px)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+        slideRight: {
+          '0%': { transform: 'translateX(-10px)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
       },
     },
   },
   plugins: [
-    function({ addBase, theme }) {
+    function ({ addBase, addUtilities, theme }) {
       addBase({
         '::selection': {
-          'background-color': theme('colors.primary.500'),
-          'color': theme('colors.text.white'),
+          backgroundColor: theme('colors.brand.500'),
+          color: theme('colors.white'),
         },
-      });
-    }
+        '*,::after,::before,::backdrop,::file-selector-button': {
+          borderColor: theme('colors.gray.200'),
+        },
+      })
+
+      addUtilities({
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+          '&::-webkit-scrollbar': { display: 'none' },
+        },
+        '.custom-scrollbar': {
+          '&::-webkit-scrollbar': {
+            width: '6px',
+            height: '6px',
+          },
+          '&::-webkit-scrollbar-track': {
+            borderRadius: '9999px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: theme('colors.gray.200'),
+            borderRadius: '9999px',
+          },
+          '&::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: theme('colors.gray.300'),
+          },
+        },
+      })
+    },
   ],
 }
+
+export default config

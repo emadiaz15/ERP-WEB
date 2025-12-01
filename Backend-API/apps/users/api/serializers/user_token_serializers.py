@@ -47,7 +47,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
                 "email": user.email,
                 "name": user.name,
                 "last_name": user.last_name,
-                "is_staff": user.is_staff,
+                "role": user.role,
+                "status": user.status,
                 "is_active": user.is_active,
                 "image": user.image,
                 "image_url": get_profile_image_url(user.image) if user.image else None

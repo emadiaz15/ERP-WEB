@@ -9,15 +9,15 @@ class UserFilter(django_filters.FilterSet):
     # Filtro para estado activo (is_active)
     is_active = django_filters.BooleanFilter(field_name='is_active', lookup_expr='exact', method='filter_active')
 
-    # Filtro para administrador (is_staff)
-    is_staff = django_filters.BooleanFilter(field_name='is_staff', lookup_expr='exact')
+    # Filtro para status del usuario (activo en el sistema)
+    status = django_filters.BooleanFilter(field_name='status', lookup_expr='exact')
 
     # ✅ Filtro para buscar por DNI (permite buscar por coincidencias parciales)
     dni = django_filters.CharFilter(field_name='dni', lookup_expr='icontains')
 
     class Meta:
         model = User
-        fields = ['full_name', 'is_active', 'is_staff', 'dni']  # ✅ Agregamos 'dni'
+        fields = ['full_name', 'is_active', 'status', 'dni']  # ✅ Agregamos 'dni'
 
     def filter_full_name(self, queryset, name, value):
         """

@@ -36,9 +36,9 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'id', 'username', 'email', 'name', 'last_name',
-            'dni', 'phone', 'role', 'is_staff', 'is_active', 'image_url'
+            'dni', 'phone', 'role', 'status', 'is_active', 'image_url'
         ]
-        read_only_fields = ['id', 'image_url', 'is_staff']
+        read_only_fields = ['id', 'image_url', 'status']
 
     def get_image_url(self, obj):
         if not obj.image or not isinstance(obj.image, str):

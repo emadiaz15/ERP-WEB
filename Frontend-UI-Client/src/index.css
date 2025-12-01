@@ -1,25 +1,167 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Merriweather:wght@300;400;700&display=swap");
+/* Importar fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Fuerza el fondo blanco y texto del color primario para los <select> */
-select {
-  background-color: #ffffff !important;
-  color: #17202a !important; /* Utilizamos el valor de text.primary */
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-}
-
-/* Fuerza el fondo y el color de texto en las <option> */
-select option {
-  background-color: #ffffff !important;
-  color: #17202a !important;
-}
+/* ====================================================================
+   ESTILOS BASE
+   ==================================================================== */
 
 @layer base {
   html {
-    font-size: 90%;
+    font-size: 16px;
+    @apply antialiased;
+  }
+
+  body {
+    margin: 0;
+    @apply relative z-1 min-h-screen bg-gray-50 font-outfit font-normal text-gray-800;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    @apply cursor-pointer;
+  }
+
+  /* Select personalizado */
+  select {
+    @apply bg-white text-gray-800;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
+  select option {
+    @apply bg-white text-gray-800;
+  }
+
+  /* Input date/time */
+  input[type='date']::-webkit-inner-spin-button,
+  input[type='time']::-webkit-inner-spin-button,
+  input[type='date']::-webkit-calendar-picker-indicator,
+  input[type='time']::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+  }
+}
+
+/* ====================================================================
+   COMPONENTES PERSONALIZADOS
+   ==================================================================== */
+
+@layer components {
+  /* Menu items (sidebar) */
+  .menu-item {
+    @apply relative flex w-full items-center gap-3 rounded-lg px-3 py-2 text-theme-sm font-medium;
+  }
+
+  .menu-item-active {
+    @apply bg-brand-50 text-brand-500;
+  }
+
+  .menu-item-inactive {
+    @apply text-gray-700 hover:bg-gray-100;
+  }
+
+  .menu-item-icon {
+    @apply text-gray-500;
+  }
+
+  .menu-item-icon-active {
+    @apply text-brand-500;
+  }
+
+  /* Card base */
+  .card {
+    @apply rounded-xl border border-gray-200 bg-white p-6 shadow-theme-sm;
+  }
+
+  /* Input base */
+  .input-base {
+    @apply h-11 w-full rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-800 shadow-theme-xs;
+    @apply transition-colors duration-200;
+    @apply placeholder:text-gray-400;
+    @apply focus:border-brand-500 focus:outline-none focus:ring-4 focus:ring-brand-500/10;
+    @apply disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-400;
+  }
+
+  /* Button base */
+  .btn-base {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200;
+    @apply focus:outline-none focus:ring-4;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply bg-brand-500 text-white hover:bg-brand-600;
+    @apply focus:ring-brand-500/20;
+  }
+
+  .btn-secondary {
+    @apply border border-gray-300 bg-white text-gray-700 hover:bg-gray-50;
+    @apply focus:ring-gray-500/10;
+  }
+
+  .btn-danger {
+    @apply bg-error-500 text-white hover:bg-error-600;
+    @apply focus:ring-error-500/20;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply bg-success-50 text-success-700;
+  }
+
+  .badge-error {
+    @apply bg-error-50 text-error-700;
+  }
+
+  .badge-warning {
+    @apply bg-warning-50 text-warning-700;
+  }
+
+  .badge-info {
+    @apply bg-info-50 text-info-700;
+  }
+
+  /* Table */
+  .table-base {
+    @apply w-full border-separate border-spacing-0;
+  }
+
+  .table-header {
+    @apply border-b border-gray-200 bg-gray-50 text-left text-xs font-medium uppercase text-gray-500;
+  }
+
+  .table-row {
+    @apply border-b border-gray-200 transition-colors hover:bg-gray-50;
+  }
+
+  .table-cell {
+    @apply px-4 py-3 text-sm text-gray-700;
+  }
+}
+
+/* ====================================================================
+   DARK MODE (Opcional - preparado para futuro)
+   ==================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  .dark {
+    @apply bg-gray-900 text-gray-100;
+  }
+
+  .dark .menu-item-inactive {
+    @apply text-gray-300 hover:bg-white/5;
+  }
+
+  .dark .card {
+    @apply border-gray-800 bg-gray-900;
   }
 }

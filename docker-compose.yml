@@ -1,10 +1,10 @@
 services:
   redis:
     image: redis:7-alpine
-    container_name: ims_redis
+    container_name: ${REDIS_CONTAINER_NAME}
     command: ["redis-server", "--appendonly", "yes"]
     ports:
-      - "6379:6379"
+      - "${REDIS_HOST_PORT}:6379"
     volumes:
       - redis-data:/data
     healthcheck:
@@ -14,20 +14,18 @@ services:
       retries: 10
 
   db:
-    # Se fija a una etiqueta existente para evitar fallas "No such image"
-    image: postgres:15.6-alpine3.19
-    container_name: ims_db
+    image: ${POSTGRES_IMAGE}
+    container_name: ${DB_CONTAINER_NAME}
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-inventory_db}
-      POSTGRES_USER: ${POSTGRES_USER:-inventory_user}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-inventory_pass}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      # Publica la DB en un puerto configurable (por defecto 5433) para evitar conflictos con un Postgres local
-      - "${DB_HOST_PORT:-5433}:5432"
+      - "${DB_HOST_PORT}:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-inventory_user} -d ${POSTGRES_DB:-inventory_db}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -36,29 +34,76 @@ services:
     build:
       context: ./Backend-API
       dockerfile: Dockerfile
-    image: ims_api:latest
+    image: ${API_IMAGE}
     pull_policy: never
-    container_name: ims_api
+    container_name: ${API_CONTAINER_NAME}
     env_file:
       - ./.env
     environment:
-      # Forzamos entorno local para desarrollo
-      APP_ENV: local
-      DJANGO_SETTINGS_MODULE: ERP_management.settings.local
-      # Red y base de datos (overridable desde .env)
-      PORT: ${API_PORT:-8080}
-      DATABASE_URL: ${DATABASE_URL:-postgres://inventory_user:inventory_pass@db:5432/inventory_db}
-      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
-      # Hosts y CORS/CSRF para el frontend local
-      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1}
-      DJANGO_CORS_ALLOWED_ORIGINS: ${DJANGO_CORS_ALLOWED_ORIGINS:-http://localhost:3000}
-      DJANGO_CSRF_TRUSTED_ORIGINS: ${DJANGO_CSRF_TRUSTED_ORIGINS:-http://localhost:3000}
+      # Entorno
+      APP_ENV: ${APP_ENV}
+      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
+      DEBUG: ${DEBUG}
+      DJANGO_DEBUG: ${DJANGO_DEBUG}
+
+      # Puerto
+      PORT: ${API_PORT}
+
+      # Base de datos
+      DATABASE_URL: ${DATABASE_URL}
+
+      # Redis y Celery
+      REDIS_URL: ${REDIS_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+
+      # Seguridad
+      SECRET_KEY: ${SECRET_KEY}
+
+      # CORS y hosts
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+      DJANGO_CORS_ALLOWED_ORIGINS: ${DJANGO_CORS_ALLOWED_ORIGINS}
+      DJANGO_CSRF_TRUSTED_ORIGINS: ${DJANGO_CSRF_TRUSTED_ORIGINS}
+
+      # Email
+      EMAIL_HOST_USER: ${EMAIL_HOST_USER}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
+      DJANGO_EMAIL_HOST_USER: ${DJANGO_EMAIL_HOST_USER}
+      DJANGO_EMAIL_HOST_PASSWORD: ${DJANGO_EMAIL_HOST_PASSWORD}
+
+      # S3/MinIO
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_S3_REGION_NAME: ${AWS_S3_REGION_NAME}
+      AWS_S3_ENDPOINT_URL: ${AWS_S3_ENDPOINT_URL}
+      AWS_S3_CUSTOM_DOMAIN: ${AWS_S3_CUSTOM_DOMAIN}
+      AWS_PRODUCT_BUCKET_NAME: ${AWS_PRODUCT_BUCKET_NAME}
+      AWS_PROFILE_BUCKET_NAME: ${AWS_PROFILE_BUCKET_NAME}
+      AWS_INTAKE_BUCKET_NAME: ${AWS_INTAKE_BUCKET_NAME}
+      MINIO_PUBLIC_URL: ${MINIO_PUBLIC_URL}
+
+      # Otros
+      RELEASE: ${RELEASE}
+      ALLOWED_UPLOAD_EXTENSIONS: ${ALLOWED_UPLOAD_EXTENSIONS}
+      USE_SQLITE: ${USE_SQLITE}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      DRIVE_SHARED_SECRET: ${DRIVE_SHARED_SECRET}
+
+      # MySQL Read-Only
+      MYSQL_RO_ENABLED: ${MYSQL_RO_ENABLED}
+      MYSQL_RO_HOST: ${MYSQL_RO_HOST}
+      MYSQL_RO_PORT: ${MYSQL_RO_PORT}
+      MYSQL_RO_DB: ${MYSQL_RO_DB}
+      MYSQL_RO_USER: ${MYSQL_RO_USER}
+      MYSQL_RO_PASSWORD: ${MYSQL_RO_PASSWORD}
+      MYSQL_RO_CONN_MAX_AGE: ${MYSQL_RO_CONN_MAX_AGE}
     volumes:
       - ./Backend-API:/app
+      - /app/__pycache__
     ports:
-      - "${API_PORT:-8080}:8080"
+      - "${API_PORT}:${API_PORT}"
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/health/ > /dev/null"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:${API_PORT}/health/ > /dev/null"]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -68,22 +113,33 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    command: ["sh", "-lc", "python manage.py runserver 0.0.0.0:8080"]
+    command: ["sh", "-lc", "python manage.py runserver 0.0.0.0:${API_PORT}"]
     restart: unless-stopped
+    develop:
+      watch:
+        - path: ./Backend-API/requirements.txt
+          action: rebuild
+        - path: ./Backend-API/Dockerfile
+          action: rebuild
+        - path: ./Backend-API/entrypoint.sh
+          action: rebuild
 
   celery_worker:
-    image: ims_api:latest
+    image: ${API_IMAGE}
     pull_policy: never
-    container_name: ims_celery_worker
+    container_name: ${CELERY_WORKER_CONTAINER_NAME}
     env_file:
       - ./.env
     environment:
-      APP_ENV: local
-      DJANGO_SETTINGS_MODULE: ERP_management.settings.local
+      APP_ENV: ${APP_ENV}
+      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
       RUN_MIGRATIONS: "false"
-      # EntryPoint del API esperará DB y luego ejecutará el comando
-      DATABASE_URL: ${DATABASE_URL:-postgres://inventory_user:inventory_pass@db:5432/inventory_db}
-      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+    volumes:
+      - ./Backend-API:/app
     depends_on:
       db:
         condition: service_healthy
@@ -95,17 +151,21 @@ services:
     restart: unless-stopped
 
   celery_beat:
-    image: ims_api:latest
+    image: ${API_IMAGE}
     pull_policy: never
-    container_name: ims_celery_beat
+    container_name: ${CELERY_BEAT_CONTAINER_NAME}
     env_file:
       - ./.env
     environment:
-      APP_ENV: local
-      DJANGO_SETTINGS_MODULE: ERP_management.settings.local
+      APP_ENV: ${APP_ENV}
+      DJANGO_SETTINGS_MODULE: ${DJANGO_SETTINGS_MODULE}
       RUN_MIGRATIONS: "false"
-      DATABASE_URL: ${DATABASE_URL:-postgres://inventory_user:inventory_pass@db:5432/inventory_db}
-      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+    volumes:
+      - ./Backend-API:/app
     depends_on:
       db:
         condition: service_healthy
@@ -113,7 +173,6 @@ services:
         condition: service_healthy
       api:
         condition: service_healthy
-    # Pequeña guarda: si por algún motivo beat aún no tiene sus tablas, intenta migrar solo django_celery_beat antes de iniciar
     command: ["sh", "-lc", "python manage.py migrate django_celery_beat --noinput || true; celery -A ERP_management beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler"]
     restart: unless-stopped
 
@@ -121,26 +180,48 @@ services:
     build:
       context: ./Frontend-UI-Client
       dockerfile: Dockerfile
+      target: ${UI_BUILD_TARGET}
       args:
-        # Vite build-time variables
-        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8080/api/v1}
-        VITE_WS_URL_NOTIFICATIONS: ${VITE_WS_URL_NOTIFICATIONS:-ws://localhost:8080/ws/notifications/}
-        VITE_WS_URL_CRUD_EVENTS: ${VITE_WS_URL_CRUD_EVENTS:-ws://localhost:8080/ws/crud-events/}
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+        VITE_WS_URL_NOTIFICATIONS: ${VITE_WS_URL_NOTIFICATIONS}
+        VITE_WS_URL_CRUD_EVENTS: ${VITE_WS_URL_CRUD_EVENTS}
     pull_policy: never
-    container_name: ims_ui
+    container_name: ${UI_CONTAINER_NAME}
     env_file:
       - ./.env
     environment:
-      APP_MODE: ${APP_MODE:-prod}
-      PORT: ${UI_PORT:-3000}
+      NODE_ENV: ${NODE_ENV}
+      VITE_DEBUG: ${VITE_DEBUG}
+      VITE_WS_DEBUG: ${VITE_WS_DEBUG}
+      APP_MODE: ${APP_MODE}
+      PORT: ${UI_PORT}
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+      VITE_WS_URL_NOTIFICATIONS: ${VITE_WS_URL_NOTIFICATIONS}
+      VITE_WS_URL_CRUD_EVENTS: ${VITE_WS_URL_CRUD_EVENTS}
     ports:
-      - "${UI_PORT:-3000}:3000"
+      - "${UI_PORT}:${UI_PORT}"
+    volumes:
+      - ./Frontend-UI-Client:/app
+      - /app/node_modules
     depends_on:
-      - api
-
-  # MySQL deshabilitado: el ERP ahora es 100% Postgres.
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:${UI_PORT}/ > /dev/null"]
+      interval: 30s
+      timeout: 3s
+      retries: 5
+      start_period: 40s
+    restart: unless-stopped
+    develop:
+      watch:
+        - path: ./Frontend-UI-Client/package.json
+          action: rebuild
+        - path: ./Frontend-UI-Client/Dockerfile
+          action: rebuild
+        - path: ./Frontend-UI-Client/docker-entrypoint.sh
+          action: rebuild
 
 volumes:
   db-data:
   redis-data:
-  mysql-data:

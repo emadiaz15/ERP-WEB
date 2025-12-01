@@ -59,7 +59,7 @@ list_users_doc = {
         OpenApiParameter(name="username", location=OpenApiParameter.QUERY, description="Filtrar por username", required=False, type=str),
         OpenApiParameter(name="email", location=OpenApiParameter.QUERY, description="Filtrar por email", required=False, type=str),
         OpenApiParameter(name="is_active", location=OpenApiParameter.QUERY, description="Filtrar por estado activo", required=False, type=bool),
-        OpenApiParameter(name="is_staff", location=OpenApiParameter.QUERY, description="Filtrar por rol administrador", required=False, type=bool),
+        OpenApiParameter(name="status", location=OpenApiParameter.QUERY, description="Filtrar por status del usuario", required=False, type=bool),
         OpenApiParameter(name="page", location=OpenApiParameter.QUERY, description="Número de página", required=False, type=int),
         OpenApiParameter(name="page_size", location=OpenApiParameter.QUERY, description="Tamaño de página", required=False, type=int)
     ],

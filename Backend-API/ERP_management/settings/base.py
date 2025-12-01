@@ -191,6 +191,10 @@ def env_flag(name: str, default: str = "False") -> bool:
     """Conveniencia para interpretar variables booleanas."""
     return os.getenv(name, default).strip().lower() in {"1", "true", "yes", "on"}
 
+
+# Feature toggles
+ENABLE_INTAKE_S3 = env_flag("ENABLE_INTAKE_S3")
+
 # Helper para advertir si faltan variables de entorno críticas
 def warn_if_env_missing(var_name):
     if not os.getenv(var_name):

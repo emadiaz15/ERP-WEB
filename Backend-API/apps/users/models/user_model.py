@@ -4,7 +4,7 @@ from simple_history.models import HistoricalRecords
 
 
 class UserManager(BaseUserManager):
-    def _create_user(self, username, email, name, last_name, password, is_staff, is_superuser, dni=None, **extra_fields):
+    def _create_user(self, username, email, name, last_name, password, status, is_superuser, dni=None, **extra_fields):
         if not username:
             raise ValueError("El campo de usuario es obligatorio.")
         if not email:
@@ -17,7 +17,7 @@ class UserManager(BaseUserManager):
             name=name,
             last_name=last_name,
             dni=dni,
-            is_staff=is_staff,
+            status=status,
             is_superuser=is_superuser,
             **extra_fields
         )
@@ -43,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     dni = models.CharField('DNI', max_length=10, unique=True, db_index=True, null=True, blank=True)
     image = models.CharField('Ruta en S3 de imagen de perfil', max_length=500, null=True, blank=True)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
+    status = models.BooleanField('Estado del usuario (activo/inactivo en el sistema)', default=False)
     is_deleted = models.BooleanField('Usuario borrado lógicamente', default=False)
 
     class Role(models.TextChoices):
