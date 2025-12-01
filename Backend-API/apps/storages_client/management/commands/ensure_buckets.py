@@ -7,7 +7,7 @@ from apps.storages_client.clients.minio_client import get_minio_client
 logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
-    help = "Verifica y crea (si faltan) los buckets necesarios: productos, perfiles, intake"
+    help = "Verifica y crea (si faltan) los buckets necesarios: productos y perfiles"
 
     def add_arguments(self, parser):
         parser.add_argument('--dry-run', action='store_true', help='Sólo muestra el estado, no crea nada')
@@ -19,7 +19,6 @@ class Command(BaseCommand):
         buckets = {
             'products': getattr(settings, 'AWS_PRODUCT_BUCKET_NAME', None),
             'profiles': getattr(settings, 'AWS_PROFILE_BUCKET_NAME', None),
-            'intake': getattr(settings, 'AWS_INTAKE_BUCKET_NAME', None),
         }
 
         missing_vars = [k for k, v in buckets.items() if not v]

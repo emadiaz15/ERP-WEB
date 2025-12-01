@@ -38,7 +38,6 @@ ALLOWED_HOSTS = [h for h in os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',') if 
 
 # ── ESTÁTICOS (mínimos para evitar ImproperlyConfigured) ─────────────
 # Aun si no servimos estáticos desde Django en prod, STATIC_URL debe existir
-STATIC_URL = '/static/'
 # Ubicación de collectstatic si decidieras ejecutarlo en tu pipeline
 STATIC_ROOT = BASE_DIR.parent / 'staticfiles'
 
@@ -61,7 +60,6 @@ def _to_ws(origin: str) -> str:
         return f"{scheme}://{p.netloc}"
     except Exception:
         return origin.replace('https://', 'wss://').replace('http://', 'ws://')
-
 cors_origins = [o for o in os.getenv('DJANGO_CORS_ALLOWED_ORIGINS', '').split(',') if o]
 csrf_origins = [o for o in os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',') if o]
 
@@ -109,9 +107,6 @@ CORS_ALLOW_HEADERS    = [
 CORS_ALLOW_METHODS    = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 CORS_ALLOW_CREDENTIALS = True
 
-# ── REDIS & CELERY & CHANNELS ──────────────────────────────────
-REDIS_URL = os.getenv('REDIS_URL')
-if not REDIS_URL:
     raise ImproperlyConfigured("La variable REDIS_URL no está definida en producción")
 
 def _with_db(url: str, db: str) -> str:

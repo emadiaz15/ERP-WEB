@@ -173,3 +173,67 @@ image_replace_doc = {
         500: OpenApiResponse(description="Error inesperado al reemplazar la imagen")
     }
 }
+
+# --- Búsqueda ligera de usuarios ---
+user_lookup_doc = {
+    "tags": ["Users"],
+    "summary": "Búsqueda ligera de usuarios",
+    "operation_id": "user_lookup",
+    "description": """
+    Búsqueda rápida y ligera de usuarios por nombre completo (case-insensitive y accent-insensitive).
+
+    **Características**:
+    - Detecta automáticamente si Postgres tiene extension `unaccent` habilitada
+    - Fallback a normalización Unicode NFD si no hay unaccent
+    - Retorna máximo 25 resultados
+    - Ideal para autocomplete en formularios y búsquedas de n8n
+
+    **Formato de respuesta**:
+    ```json
+    {
+        "results": [
+            {"id": 1, "full_name": "Juan Pérez"},
+            {"id": 2, "full_name": "María García"}
+        ],
+        "detail": "Mensaje informativo (solo si no hay resultados)"
+    }
+    ```
+    """,
+    "parameters": [
+        OpenApiParameter(
+            name="q",
+            location=OpenApiParameter.QUERY,
+            required=True,
+            type=str,
+            description="Término de búsqueda (nombre y/o apellido). Ejemplo: 'juan perez' o 'maría'"
+        )
+    ],
+    "responses": {
+        200: OpenApiResponse(
+            description="Búsqueda exitosa (puede retornar lista vacía)",
+            response={
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "integer", "description": "ID del usuario"},
+                                "full_name": {"type": "string", "description": "Nombre completo (nombre + apellido)"}
+                            }
+                        }
+                    },
+                    "detail": {"type": "string", "description": "Mensaje informativo si no hay resultados"}
+                },
+                "example": {
+                    "results": [
+                        {"id": 1, "full_name": "Juan Pérez"},
+                        {"id": 2, "full_name": "María García"}
+                    ]
+                }
+            }
+        ),
+        401: OpenApiResponse(description="No autenticado")
+    }
+}

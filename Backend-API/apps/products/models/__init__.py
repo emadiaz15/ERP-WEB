@@ -15,6 +15,7 @@ from .product_image_model import ProductImage
 from .subproduct_image_model import SubproductImage
 from .customer_product_model import CustomerProduct
 from .supplier_product_model import SupplierProduct
+from .supplier_product_price_history_model import SupplierProductPriceHistory
 from .supplier_discount_model import SupplierProductDescription, SupplierProductDiscount
 from .metrics_model import ProductMetrics
 from .dictionary_models import (
@@ -32,6 +33,7 @@ __all__ = [
 	"SubproductImage",
 	"CustomerProduct",
 	"SupplierProduct",
+	"SupplierProductPriceHistory",
 	"ProductMetrics",
 	"ProductAbbreviation",
 	"ProductSynonym",

@@ -1,0 +1,840 @@
+@startuml "ERP Legacy  Diagrama Global"
+skinparam classAttributeIconSize 0
+skinparam classFontSize 11
+
+' ========= 1. Catálogo de Artículos =========
+
+class Articulo {
+  +art_codi: int
+  +art_desc: varchar
+  +art_stock: float
+  +art_precio: float
+  +costo_ultcpra: float
+  +art_med: varchar
+  +art_stmin: float
+  +art_deta: text
+  +art_alicuota: int
+}
+
+class Rubro {
+  +rub_codi: int
+  +rub_desc: varchar
+}
+
+Articulo --> Rubro : rub_codi >
+
+class AjusteStock {
+  +aju_codi: int
+  +aju_fech: date
+  +aju_conc: varchar
+}
+
+class AjusteArticulo {
+  +artaju_cant: float
+}
+
+AjusteArticulo --> AjusteStock : aju_codi >
+AjusteArticulo --> Articulo : art_codi >
+
+class HistorialStock {
+  +hs_codi: int
+  +hs_fecha: date
+  +hs_tipmov: varchar
+  +hs_cant: float
+  +hs_saldo: float
+}
+
+HistorialStock --> Articulo : art_codi >
+HistorialStock --> AjusteStock : aju_codi >
+
+' ========= 2. Clientes / Personas / Zonas =========
+
+class Cliente {
+  +cli_codi: int
+  +cli_nomb: varchar
+  +cli_cuit: bigint
+  +cli_saldo: float
+}
+
+class Zona {
+  +zona_codi: int
+  +zona_desc: varchar
+}
+
+Cliente --> Zona : zona_codi >
+
+class Localidad {
+  +loca_codi: int
+  +loca_nomb: varchar
+}
+
+class Provincia {
+  +provi_codi: int
+  +provi_nomb: varchar
+}
+
+class CodigoPostal {
+  +cp_codi: int
+  +cp_nro: int
+}
+
+Localidad --> Provincia : provi_codi >
+Localidad --> CodigoPostal : cp_codi >
+Cliente --> Localidad : loca_codi >
+
+class CondicionIVA {
+  +cond_codi: int
+  +cond_desc: varchar
+}
+
+Cliente --> CondicionIVA : cond_codi >
+
+class Persona {
+  +per_codi: int
+  +per_desc: varchar
+  +per_cuit: bigint
+}
+
+Persona --> Localidad : loca_codi >
+Persona --> CondicionIVA : cond_codi >
+
+' ========= 3. Proveedores =========
+
+class Proveedor {
+  +prov_codi: int
+  +prov_nomb: varchar
+  +prov_cuit: bigint
+  +prov_saldo: float
+}
+
+Proveedor --> Localidad : loca_codi >
+Proveedor --> CondicionIVA : cond_codi >
+
+' ========= 4. Relación Artículos con Clientes / Personas / Proveedores =========
+
+class ArticuloCliente {
+  +artcli_codi: int
+  +artcli_desc: varchar
+}
+
+ArticuloCliente --> Articulo : art_codi >
+ArticuloCliente --> Cliente : cli_codi >
+
+class ArticuloPersona {
+  +artp_codi: int
+  +artp_desc: varchar
+  +artp_prec: float
+}
+
+ArticuloPersona --> Articulo : art_codi >
+ArticuloPersona --> Persona : per_codi >
+
+class ArticuloProveedor {
+  +artpro_codi: int
+  +artpro_desc: varchar
+  +artpro_costo: float
+  +artpro_ctovta: float
+  +moneda: varchar
+}
+
+ArticuloProveedor --> Articulo : art_codi >
+ArticuloProveedor --> Proveedor : prov_codi >
+
+class Descuento {
+  +dto_codi: int
+  +dto_porc: int
+  +dto_desc: varchar
+}
+
+class ArticuloProveedorDescuento {
+  +arpdes_codi: int
+  +negativo: int
+}
+
+ArticuloProveedorDescuento --> ArticuloProveedor : artpro_codi >
+ArticuloProveedorDescuento --> Descuento : dto_codi >
+
+class DescArticuloCliente {
+  +dac_codi: int
+  +dac_desc: varchar
+}
+
+DescArticuloCliente --> ArticuloCliente : artcli_codi >
+
+class DescArticuloProveedor {
+  +dap_codi: int
+  +dap_desc: varchar
+}
+
+DescArticuloProveedor --> ArticuloProveedor : artpro_codi >
+
+' ========= 1. Catlogo de Insumos =========
+
+class Insumo {
+  +insu_codi: int
+  +insu_desc: varchar
+  +insu_unimed: varchar
+  +insu_stock: double
+  +insu_stmin: double
+  +insu_costo: double
+  +insu_ultcpra: double
+}
+
+class InsumoRubro {
+  +insu_rub_id: int
+  +insu_rub_desc: varchar
+}
+
+Insumo --> InsumoRubro : insu_rub_id >
+
+class InsumoHistoricoStock {
+  +hs_codi: int
+  +hs_fecha: datetime
+  +hs_tipmov: varchar
+  +hs_cant: double
+  +hs_saldo: double
+}
+
+InsumoHistoricoStock --> Insumo : insu_codi >
+
+class InsumoAjuste {
+  +insu_ajuscodi: int
+  +insu_ajusfech: date
+  +insu_ajusconc: varchar
+}
+
+class InsumoAjusteItem {
+  +insu_ajus_cant: double
+}
+
+InsumoAjusteItem --> InsumoAjuste : insu_ajuscodi >
+InsumoAjusteItem --> Insumo : insu_codi >
+
+InsumoHistoricoStock --> InsumoAjuste : insu_ajuscodi >
+
+' ========= 2. Relacin Insumos  Artculos =========
+
+class Articulo {
+  +art_codi: int
+  +art_desc: varchar
+}
+
+class InsumoArticulo {
+  +insuart_codi: int
+  +cantidad: decimal
+  +activo: tinyint
+}
+
+InsumoArticulo --> Insumo : insu_codi >
+InsumoArticulo --> Articulo : art_codi >
+
+' ========= 3. Proveedores de Insumos y Costos =========
+
+class Proveedor {
+  +prov_codi: int
+  +prov_nomb: varchar
+}
+
+class InsumoProveedor {
+  +insuprov_codi: int
+  +insuprov_costo: double
+  +insuprov_moneda: enum
+  +insuprov_lista: int
+}
+
+class InsumoProveedorHistoricoCosto {
+  +hist_codi: int
+  +hist_fecha: datetime
+  +hist_costo_anterior: double
+  +hist_costo_nuevo: double
+}
+
+InsumoProveedor --> Insumo : insu_codi >
+InsumoProveedor --> Proveedor : prov_codi >
+InsumoProveedorHistoricoCosto --> InsumoProveedor : insuprov_codi >
+
+' ========= 4. Ordenes de Fabricacin y Procesos Externos =========
+
+class OrdenFabricacion {
+  +of_codi: int
+  +of_cant_fabricada: double
+  +of_fecha_inicio: datetime
+  +of_fecha_fin: datetime
+}
+
+OrdenFabricacion --> Articulo : art_codi >
+OrdenFabricacion --> OrdenCompra : orden_codi >
+
+class ProcesoExterno {
+  +pe_codi: int
+  +pe_tipo: varchar
+  +pe_estado: varchar
+  +pe_cantidad_total: int
+}
+
+ProcesoExterno --> OrdenFabricacion : of_codi >
+ProcesoExterno --> Proveedor : prov_codi >
+
+class ProcesoExternoDetalle {
+  +procext_det_codi: int
+  +ped_cantidad_enviada: int
+  +ped_cantidad_recibida: int
+  +ped_estado: varchar
+}
+
+ProcesoExternoDetalle --> ProcesoExterno : pe_codi >
+ProcesoExternoDetalle --> Articulo : art_codi >
+ProcesoExternoDetalle --> Insumo : insu_codi >
+
+class ProcesoExternoMovimiento {
+  +pem_codi: int
+  +pem_tipo: varchar
+  +pem_fecha: datetime
+  +pem_cantidad: double
+}
+
+ProcesoExternoMovimiento --> ProcesoExternoDetalle : procext_det_codi >
+
+' ========= 1. Mtricas de Artculos =========
+
+class Articulo {
+  +art_codi: int
+  +art_desc: varchar
+}
+
+class ArticuloMetricas {
+  +vend_6m: int
+  +vend_3m: int
+  +vend_prev_3m: int
+  +tendencia_3m: int
+  +meses_con_venta: int
+  +rotacion: int
+  +rotacion_pct: decimal
+  +prom_mensual: decimal
+  +dias_ultima_venta: int
+  +stock_actual: decimal
+  +stock_min: decimal
+  +posicion: decimal
+  +comprado_pendiente: decimal
+  +pedidos_pend: decimal
+  +comprado_3m: decimal
+  +comprado_6m: decimal
+  +score_compra: decimal
+  +fecha_calc: datetime
+}
+
+ArticuloMetricas --> Articulo : art_codi >
+
+' ========= 2. Diccionario de Abreviaciones y Sinnimos =========
+
+class ArticuloAbreviacion {
+  +abb_id: int
+  +abreviacion: varchar
+  +palabra_completa: varchar
+  +peso: int
+}
+
+class ArticuloSinonimo {
+  +sin_id: int
+  +sinonimo: varchar
+  +tipo: varchar
+}
+
+class DiccionarioTermino {
+  +term_id: int
+  +termino: varchar
+  +tipo: varchar
+}
+
+ArticuloAbreviacion --> Articulo : art_codi >
+ArticuloSinonimo --> Articulo : art_codi >
+
+' ========= 3. IA para Presupuestos =========
+
+class Cliente {
+  +cli_codi: int
+  +cli_nomb: varchar
+}
+
+class Presupuesto {
+  +presup_codi: int
+}
+
+class IAPresupuestoMeta {
+  +ia_presu_id: int
+  +whatsapp_number: varchar
+  +canal: varchar
+  +ia_version: varchar
+  +confianza_global: decimal
+  +estado_revision: varchar
+  +created_at: datetime
+  +updated_at: datetime
+}
+
+class IAMatchingLog {
+  +match_id: int
+  +linea_original: text
+  +cantidad_solicitada: decimal
+  +confianza_match: decimal
+  +estado: varchar
+  +nota_vendedor: text
+  +created_at: datetime
+}
+
+class IAAliasArticulo {
+  +alias_id: int
+  +alias_text: varchar
+  +fuente: varchar
+  +region: varchar
+  +confianza: decimal
+  +created_at: datetime
+  +created_by: varchar
+}
+
+IAPresupuestoMeta --> Presupuesto : presup_codi >
+IAPresupuestoMeta --> Cliente : cli_codi >
+
+IAMatchingLog --> IAPresupuestoMeta : ia_presu_id >
+IAMatchingLog --> Articulo : art_codi_sugerido >
+IAMatchingLog --> Articulo : art_codi_final >
+
+IAAliasArticulo --> Articulo : art_codi >
+IAAliasArticulo --> Cliente : cli_codi >
+
+' ========= 1. Presupuestos → Pedidos → Remitos → Facturas =========
+
+class Cliente {
+  +cli_codi: int
+  +cli_nomb: varchar
+}
+
+class Vendedor {
+  +ven_codi: int
+  +ven_nomb: varchar
+}
+
+class PorcentajeComision {
+  +porc_codi: int
+  +porc_desc: varchar
+  +porc_impo: float
+}
+
+class Articulo {
+  +art_codi: int
+  +art_desc: varchar
+}
+
+class CondicionIVA {
+  +cond_codi: int
+  +cond_desc: varchar
+}
+
+class IVA {
+  +iva_codi: int
+}
+
+class Transporte {
+  +tran_codi: int
+  +tran_nomb: varchar
+}
+
+class Presupuesto {
+  +presup_codi: int
+  +presup_fech: date
+  +presup_dto: float
+}
+
+class PresupuestoArticulo {
+  +nro_it: int
+  +artpres_cant: float
+  +artpres_precio: float
+}
+
+Presupuesto --> Cliente : cli_codi >
+Presupuesto --> IVA : iva_codi >
+PresupuestoArticulo --> Presupuesto : presup_codi >
+PresupuestoArticulo --> Articulo : art_codi >
+
+class Pedido {
+  +ped_codi: int
+  +ped_fech: date
+  +ped_dto: float
+}
+
+class PedidoArticulo {
+  +artped_codi: int
+  +artped_cant: float
+  +artped_precio: float
+}
+
+Pedido --> Cliente : cli_codi >
+Pedido --> IVA : iva_codi >
+Pedido --> Presupuesto : presup_codi >
+Pedido --> Vendedor : ven_codi >
+Pedido --> PorcentajeComision : porc_codi >
+Pedido --> Transporte : tran_codi >
+PedidoArticulo --> Pedido : ped_codi >
+PedidoArticulo --> Articulo : art_codi >
+
+class Remito {
+  +rem_codi: int
+  +rem_nro: int
+  +rem_fech: date
+}
+
+class RemitoArticulo {
+  +rer_codi: int
+  +artrem_cant: float
+}
+
+Remito --> Cliente : cli_codi >
+Remito --> Proveedor : prov_codi >
+Remito --> Pedido : ped_codi >
+Remito --> Transporte : tran_codi >
+RemitoArticulo --> Remito : rem_codi >
+RemitoArticulo --> Articulo : art_codi >
+RemitoArticulo --> PedidoArticulo : artped_codi >
+
+class Factura {
+  +fac_codi: int
+  +fac_nro: int
+  +fac_fec: date
+  +fac_tot: float
+}
+
+class FacturaArticulo {
+  +far_codi: int
+  +artfac_cant: float
+  +artfac_impo: float
+}
+
+Factura --> Cliente : cli_codi >
+Factura --> IVA : iva_codi >
+Factura --> Pedido : ped_codi >
+Factura --> Vendedor : ven_codi >
+Factura --> PorcentajeComision : porc_codi >
+Remito --> Factura : fac_codi >
+FacturaArticulo --> Factura : fac_codi >
+FacturaArticulo --> Articulo : art_codi >
+FacturaArticulo --> PedidoArticulo : artped_codi >
+
+' Relacin Remitos  Facturas (parcial/facturado)
+
+class FacarRemar {
+  +farrer_cant: float
+}
+
+FacarRemar --> FacturaArticulo : far_codi >
+FacarRemar --> RemitoArticulo : rer_codi >
+
+' ========= 2. Cobranzas: Recibos, Pagos, Cuentas Corrientes =========
+
+class Recibo {
+  +rec_codi: int
+  +rec_nro: int
+  +rec_fec: date
+  +rec_impo: float
+}
+
+class ReciboFactura {
+  +recfac_impo: float
+}
+
+class ReciboPago {
+  +recpag_codi: int
+  +movtippag_imp: float
+}
+
+class TipoPago {
+  +tippag_codi: int
+  +tippag_desc: varchar
+}
+
+class Banco {
+  +ban_codi: int
+  +ban_desc: varchar
+}
+
+class SucursalBanco {
+  +suc_codi: int
+  +suc_nomb: varchar
+}
+
+class Deposito {
+  +dep_codi: int
+  +dep_fech: date
+  +dep_importe: float
+}
+
+Recibo --> Cliente : cli_codi >
+ReciboFactura --> Recibo : rec_codi >
+ReciboFactura --> Factura : fac_codi >
+
+ReciboPago --> Recibo : rec_codi >
+ReciboPago --> TipoPago : tippag_codi >
+ReciboPago --> Banco : ban_codi >
+ReciboPago --> SucursalBanco : suc_codi >
+ReciboPago --> Deposito : dep_codi >
+
+' Dbitos internos a clientes
+
+class DebitoCliente {
+  +debv_codi: int
+  +debv_fech: date
+  +debv_tot: float
+}
+
+class DebitoClienteItem {
+  +debvin_codi: int
+  +debvin_impo: float
+}
+
+DebitoCliente --> Cliente : cli_codi >
+DebitoClienteItem --> DebitoCliente : debv_codi >
+
+class ReciboDebitoCliente {
+  +recdebi_cod: int
+  +recdebi_imp: float
+}
+
+ReciboDebitoCliente --> Recibo : rec_codi >
+ReciboDebitoCliente --> DebitoCliente : debv_codi >
+
+' Regularizaciones y saldos iniciales
+
+class SaldoInicialCliente {
+  +sini_cod: int
+  +cli_sal: float
+}
+
+class RegularizacionCliente {
+  +reg_codi: int
+  +reg_impo: float
+}
+
+SaldoInicialCliente --> Cliente : cli_codi >
+RegularizacionCliente --> Cliente : cli_codi >
+
+class ReciboSaldoInicial {
+  +recsini_cod: int
+  +recsini_imp: float
+}
+
+ReciboSaldoInicial --> Recibo : rec_codi >
+ReciboSaldoInicial --> SaldoInicialCliente : sini_cod >
+
+' ========= 1. Proveedores y Compras =========
+
+class Proveedor {
+  +prov_codi: int
+  +prov_nomb: varchar
+}
+
+class OrdenCompra {
+  +orden_codi: int
+  +orden_fech: date
+}
+
+class OrdenCompraArticulo {
+  +artord_codi: int
+  +artord_cant: float
+  +artord_precio: float
+}
+
+class Recepcion {
+  +recep_codi: int
+  +recep_fec: date
+  +recep_tot: float
+}
+
+class RecepcionArticulo {
+  +artrecep_cant: float
+  +artrecep_prec: float
+}
+
+class Retencion {
+  +ret_codi: int
+  +ret_monto: float
+}
+
+class RFC {
+  +rfc_codi: int
+  +rfc_fec: date
+}
+
+class PagoProveedor {
+  +pag_codi: int
+  +pag_fech: date
+  +pag_impo: float
+}
+
+class PagoProveedorRecepcion {
+  +pagrec_codi: int
+  +pagrecep_impo: float
+}
+
+class ProveedorSaldoInicial {
+  +sini_cod: int
+  +prov_sal: float
+}
+
+class RegularizacionProveedor {
+  +regp_codi: int
+  +regp_impo: float
+}
+
+class DebitoProveedor {
+  +debc_codi: int
+  +debc_fech: date
+  +debc_tot: float
+}
+
+class DebitoProveedorItem {
+  +debcin_codi: int
+  +debcin_impo: float
+}
+
+class PagoProveedorDebito {
+  +pagdebi_cod: int
+  +pagdebi_imp: float
+}
+
+class IVACompra {
+  +iva_codi: int
+}
+
+class TipoGasto {
+  +tipgas_codi: int
+  +tipgas_desc: varchar
+}
+
+class Gasto {
+  +gas_codi: int
+  +gas_fech: date
+  +gas_impo: float
+}
+
+class GastoArticulo {
+  +gasart_codi: int
+  +gasart_cant: float
+  +gasart_impo: float
+}
+
+class PagoGasto {
+  +pagg_codi: int
+  +pagg_fech: date
+  +pagg_impo: float
+}
+
+class PagoGastoGasto {
+  +paggas_codi: int
+  +paggas_impo: float
+}
+
+class PagoGastoDebito {
+  +pagdebi_cod: int
+  +pagdebi_imp: float
+}
+
+class Persona {
+  +per_codi: int
+  +per_desc: varchar
+}
+
+class SaldoInicialPersona {
+  +sini_cod: int
+  +per_sal: float
+}
+
+class RegularizacionPersona {
+  +regpg_codi: int
+  +regpg_impo: float
+}
+
+class PagoSaldoInicialPersona {
+  +pagsini_cod: int
+  +pagsini_imp: float
+}
+
+class PagoSaldoInicialProveedor {
+  +pagsini_cod: int
+  +pagsini_imp: float
+}
+
+class BancoCompra {
+  +ban_codi: int
+}
+
+class SucursalBancoCompra {
+  +suc_codi: int
+}
+
+class TipoPagoCompra {
+  +tippag_codi: int
+}
+
+class PagoProveedorPago {
+  +pagpag_codi: int
+  +movtippag_imp: float
+}
+
+class PagoGastoPago {
+  +pagpag_codi: int
+  +movtippag_imp: float
+}
+
+ProveedorSaldoInicial --> Proveedor : prov_codi >
+RegularizacionProveedor --> Proveedor : prov_codi >
+
+OrdenCompra --> Proveedor : prov_codi >
+OrdenCompra --> IVACompra : iva_codi >
+OrdenCompraArticulo --> OrdenCompra : orden_codi >
+OrdenCompraArticulo --> Articulo : art_codi >
+
+Recepcion --> Proveedor : prov_codi >
+Recepcion --> IVACompra : iva_codi >
+RecepcionArticulo --> Recepcion : recep_codi >
+RecepcionArticulo --> Articulo : art_codi >
+
+PagoProveedor --> Proveedor : prov_codi >
+PagoProveedorRecepcion --> PagoProveedor : pag_codi >
+PagoProveedorRecepcion --> Recepcion : recep_codi >
+
+Retencion --> Proveedor : prov_codi >
+RFC --> Proveedor : prov_codi >
+RFC --> PagoProveedor : pag_codi >
+
+DebitoProveedor --> Proveedor : prov_codi >
+DebitoProveedorItem --> DebitoProveedor : debc_codi >
+PagoProveedorDebito --> PagoProveedor : pag_codi >
+PagoProveedorDebito --> DebitoProveedor : debc_codi >
+
+Gasto --> Persona : per_codi >
+Gasto --> IVACompra : iva_codi >
+Gasto --> TipoGasto : tipgas_codi >
+GastoArticulo --> Gasto : gas_codi >
+
+PagoGasto --> Persona : per_codi >
+PagoGastoGasto --> PagoGasto : pagg_codi >
+PagoGastoGasto --> Gasto : gas_codi >
+PagoGastoDebito --> PagoGasto : pagg_codi >
+PagoGastoDebito --> DebitoProveedor : debg_codi >
+
+SaldoInicialPersona --> Persona : per_codi >
+RegularizacionPersona --> Persona : per_codi >
+PagoSaldoInicialPersona --> SaldoInicialPersona : sini_cod >
+PagoSaldoInicialPersona --> PagoGasto : pagg_codi >
+PagoSaldoInicialProveedor --> ProveedorSaldoInicial : sini_cod >
+PagoSaldoInicialProveedor --> PagoProveedor : pag_codi >
+
+PagoProveedorPago --> PagoProveedor : pag_codi >
+PagoProveedorPago --> TipoPagoCompra : tippag_codi >
+PagoProveedorPago --> BancoCompra : ban_codi >
+PagoProveedorPago --> SucursalBancoCompra : suc_codi >
+
+PagoGastoPago --> PagoGasto : pagg_codi >
+PagoGastoPago --> TipoPagoCompra : tippag_codi >
+PagoGastoPago --> BancoCompra : ban_codi >
+PagoGastoPago --> SucursalBancoCompra : suc_codi >
+
+@enduml

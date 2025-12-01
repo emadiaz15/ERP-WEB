@@ -143,7 +143,6 @@ DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
 DJANGO_LOG_LEVEL = os.getenv("DJANGO_LOG_LEVEL", "INFO")
 DJANGO_SQL_LOG_LEVEL = os.getenv("DJANGO_SQL_LOG_LEVEL", "WARNING")
 WS_VERBOSE_LOG = os.getenv("WS_VERBOSE_LOG", "False") == "True"
-ENABLE_INTAKE_S3 = os.getenv("ENABLE_INTAKE_S3", "False") == "True"
 
 LOGGING = {
     'version': 1,

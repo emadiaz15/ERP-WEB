@@ -1,0 +1,1576 @@
+Table ajustes {
+  aju_codi int [default: null]
+  aju_fech date [default: null]
+  aju_conc varchar [default: null]
+  aju_observ text
+}
+
+Table ajustes_articulos {
+  aju_codi int [default: null]
+  art_codi int [default: null]
+  artaju_cant float [default: null]
+}
+
+Table articulos { 
+  art_codi int [pk, not null]
+  art_desc varchar [default: null]
+  art_stock float [default: null]
+  art_precio float [default: null]
+  costo_ultcpra float [default: null]
+  rub_codi int [default: null]
+  art_med varchar [default: null]
+  pedidos float [default: null]
+  pedprov float [default: null]
+  art_stmin float [default: null]
+  art_deta text
+  art_detaofi text
+  art_alicuota int [default: null]
+}
+
+Table articulos_clientes {
+  artcli_codi int [pk, not null]
+  art_codi int [default: null]
+  cli_codi int [default: null]
+  artcli_desc varchar [default: null]
+}
+
+Table articulos_personas {
+  artp_codi int [default: null]
+  per_codi int [default: null]
+  artp_desc varchar [default: null]
+  artp_prec float [default: null]
+}
+
+Table articulos_proveedores {
+  artpro_codi int [pk, not null]
+  art_codi int [default: null]
+  prov_codi int [default: null]
+  artpro_costo float [default: null]
+  artpro_ctovta float [default: null]
+  artpro_desc varchar [default: null]
+  moneda varchar [default: null]
+  lista int [default: null]
+  otro int [default: null]
+  cotiz int [default: null]
+}
+
+Table articulos_proveedores_descuentos {
+  arpdes_codi int [pk, not null]
+  artpro_codi int [default: null]
+  dto_codi int [default: null]
+  negativo int [default: null]
+}
+
+Table bancos {
+  ban_codi int [pk, not null]
+  ban_desc varchar [default: null]
+  ban_cuit bigint [default: null]
+}
+
+Table bancos_caja {
+  banc_codi int [pk, not null]
+  banc_desc varchar [default: null]
+  banc_cuit bigint [default: null]
+  banc_saldo float [default: null]
+  banc_ncta varchar [default: null]
+}
+
+Table clientes {
+  cli_codi int [pk, not null]
+  cli_nomb varchar [default: null]
+  cli_domi varchar [default: null]
+  cli_cuit bigint [default: null]
+  cli_cartel bigint [default: null]
+  cli_tel1 bigint [default: null]
+  cli_tel2 bigint [default: null]
+  cli_cel varchar [default: null]
+  cli_email varchar [default: null]
+  loca_codi int [default: null]
+  cond_codi int [default: null]
+  cli_saldo float [default: null]
+  zona_codi int [default: null]
+  cli_favor float [default: null]
+  cli_deta text
+}
+
+Table codipostales {
+  cp_codi int [pk, not null]
+  cp_nro int [default: null]
+}
+
+Table comisiones {
+  com_codi int [default: null]
+  com_fech date [default: null]
+  ven_codi int [default: null]
+  com_cantv float [default: null]
+  com_impo float [default: null]
+  com_perdes date [default: null]
+  com_perhas date [default: null]
+}
+
+Table compras {
+  orden_codi int [pk, not null]
+  orden_fech date [default: null]
+  prov_codi int [default: null]
+  orden_ref text
+  orden_obser text
+  orden_dto float [default: null]
+  tran_codi int [default: null]
+  iva_codi int [default: null]
+  cumplido varchar [default: null]
+  anulado varchar [default: null]
+  cotiz_dolar float [default: null]
+  moneda varchar [default: null]
+}
+
+Table compras_articulos {
+  artord_codi int [pk, not null]
+  orden_codi int [default: null]
+  art_codi int [default: null]
+  artord_precio float [default: null]
+  artord_cant float [default: null]
+  artord_ent float [default: null]
+  artord_dasc text
+  ///artpro_codi int [default: null] No se utiliza
+  dap_codi int [default: null] //Diferentes descripciones de articulo
+  alter_iva float [default: null]
+}
+
+Table condipresup {
+  condp_cod int [default: null]
+  condp_val text
+  condp_pla text
+  condp_pag text
+  condp_lug text
+  condp_obs text
+}
+
+Table condiva {
+  cond_codi int [default: null]
+  cond_desc varchar [default: null]
+}
+
+Table debintc {
+  debc_codi int [pk, not null]
+  debc_fech date [default: null]
+  prov_codi int [default: null]
+  debc_tot float [default: null]
+  debc_obs text
+  debc_impag float [default: null]
+  pagado varchar [default: null]
+}
+
+Table debintc_items {
+  debcin_codi int [not null]
+  debc_codi int [not null]
+  debcin_desc varchar [default: null]
+  debcin_impo float [default: null]
+}
+
+Table debintg {
+  debg_codi int [pk, not null]
+  debg_fech date [default: null]
+  per_codi int [default: null]
+  debg_tot float [default: null]
+  debg_obs text
+  debg_impag float [default: null]
+  pagado varchar [default: null]
+}
+
+Table debintg_items {
+  debgin_codi int [not null]
+  debg_codi int [not null]
+  debgin_desc varchar [default: null]
+  debgin_impo float [default: null]
+}
+
+Table debintv {
+  debv_codi int [pk, not null]
+  debv_fech date [default: null]
+  cli_codi int [default: null]
+  debv_tot float [default: null]
+  debv_obs text
+  debv_impag float [default: null]
+  pagado varchar [default: null]
+}
+
+Table debintv_items {
+  debvin_codi int [not null]
+  debv_codi int [not null]
+  debvin_desc varchar [default: null]
+  debvin_impo float [default: null]
+}
+
+Table depositos {
+  dep_codi int [pk, not null]
+  dep_fech date [default: null]
+  dep_bolnro varchar [default: null]
+  dep_importe float [default: 0.0]
+  banc_codi int [not null, default: 0]
+  dep_obser text
+}
+
+Table desc_articulos_clientes {
+  dac_codi int [pk, not null]
+  artcli_codi int [default: null]
+  dac_desc varchar [default: null]
+}
+
+Table desc_articulos_proveedores {
+  dap_codi int [pk, not null]
+  artpro_codi int [default: null]
+  dap_desc varchar [default: null]
+}
+
+Table descuentos {
+  dto_codi int [pk, not null]
+  dto_porc int [default: null]
+  dto_desc varchar [default: null]
+  dto_coef float [default: null]
+}
+
+Table fabricados {
+  fab_codi int [pk, not null]
+  fab_fech date [default: null]
+  rem_codi int [default: null]
+  fab_obse text
+}
+
+Table fabricados_compras_articulos {
+  fab_codi int [not null]
+  artord_codi int [not null]
+  fabart_cant float [default: null]
+  rer_codi int [default: 0]
+}
+
+Table facar_remar {
+  far_codi int [default: null]
+  rer_codi int [default: null]
+  farrer_cant float [default: null]
+}
+
+Table facturas {
+  fac_codi int [pk, not null]
+  fac_nro int [default: null]
+  fac_pto int [default: null]
+  fac_tipo varchar [default: null]
+  fac_fec date [default: null]
+  fac_compas int [default: null]
+  imp_pag float [default: null]
+  cli_codi int [default: null]
+  iva_codi int [default: null]
+  fac_dto float [default: null]
+  ped_codi int [default: null]
+  fac_conc varchar [default: null]
+  pagado varchar [default: null]
+  nc_texto text
+  anulado varchar [default: null]
+  fac_ng float [default: null]
+  neto_1 float [default: null]
+  neto_2 float [default: null]
+  fac_ivari float [default: null]
+  fac_ivarni float [default: null]
+  fac_tot float [default: null]
+  fac_pie text
+  com_codi int [default: null]
+  ven_codi int [default: null]
+  porc_codi int [default: null]
+  otra_comi float [default: null]
+  cae varchar [default: null]
+  fvtocae date [default: null]
+  barra varchar [default: null]
+  remitado boolean [default: false]
+  cotiz_dolar float [default: 0.0]
+  fac_pcae boolean [default: false]
+}
+
+Table facturas_articulos {
+  far_codi int [pk, not null]
+  fac_codi int [default: null]
+  art_codi int [default: null]
+  artfac_cant float [default: null]
+  artfac_impo float [default: null]
+  artfac_dasc text
+  dac_codi int [default: null]
+  artfac_ddesc varchar [default: null]
+  artfac_nd text
+  artfac_sstock varchar [default: null]
+  calciva varchar [default: null]
+  artped_codi int [default: null]
+  remitado boolean [default: false]
+}
+
+Table gastos {
+  gas_codi int [pk, not null]
+  gas_fech date [default: null]
+  per_codi int [default: null]
+  tipgas_codi int [default: null]
+  gas_obser text
+  gas_dto float [default: null]
+  gas_pto int [default: null]
+  gas_cbte int [default: null]
+  gas_tipcbte varchar [default: null]
+  gas_rto int [default: null]
+  iva_codi int [default: null]
+  gas_piva float [default: null]
+  gas_btos float [default: null]
+  imp_pag float [default: null]
+  pagado varchar [default: null]
+  gas_conc varchar [default: null]
+  cotiz_dolar float [default: null]
+  gas_impo float [default: null]
+  gas_impo2 float [default: null]
+  gas_impo3 float [default: null]
+  gas_impng float [default: null]
+  altiva_1 float [default: null]
+  altiva_2 float [default: null]
+  ivand float [default: null]
+  ivanc float [default: null]
+  gas_dtopag float [default: null]
+  cc int [default: null]
+  gas_iva float [default: null]
+  gas_iva2 float [default: null]
+  gas_iva3 float [default: null]
+  gas_nc int [default: null]
+}
+
+Table gastos_articulos {
+  gasart_codi int [pk, not null]
+  gas_codi int [default: null]
+  gasart_cant float [default: null]
+  gasart_desc varchar [default: null]
+  gasart_impo float [default: null]
+  gasart_alicuota int [default: null]
+}
+
+Table gastos_pagos {
+  gaspag_codi int [default: null]
+  gas_codi int [default: null]
+  tipgas_codi int [default: null]
+  movtippag_nro varchar [default: null]
+  ban_codi int [default: null]
+  movtippag_pza varchar [default: null]
+  movtippag_fvto date [default: null]
+  movtippag_imp float [default: null]
+  cuit_lib bigint [default: null]
+}
+
+Table histocobrar {
+  histoc_codi int [default: null]
+  histoc_fecha date [default: null]
+  histoc_impo float [default: null]
+}
+
+Table histocosto {
+  histo_codi int [pk, not null]
+  histo_fech datetime [default: null]
+  histo_costo float [default: null]
+  histo_ctovta float [default: null]
+  artpro_codi int [default: null]
+  moneda varchar [default: null]
+}
+
+Table histocoti {
+  hiscot_codi int [pk, not null]
+  hiscot_fecha datetime [default: null]
+  hiscot_impo float [default: null]
+}
+
+Table histopagar {
+  histop_codi int [default: null]
+  histop_fecha date [default: null]
+  histop_impo float [default: null]
+}
+
+Table histostock {
+  hs_codi int [pk, not null, increment]
+  art_codi int [default: null]
+  hs_fecha date [default: null]
+  hs_hora time [default: null]
+  hs_tipmov varchar [default: null]
+  hs_anterior float [default: null]
+  hs_cant float [default: null]
+  hs_saldo float [default: null]
+  hs_obser text
+  hs_deta text
+  aju_codi int [default: null]
+  recep_codi int [default: null]
+  fac_codi int [default: null]
+  rem_codi int [default: null]
+  cond_codi int [default: 0]
+  codi_clipro int [default: 0]
+}
+
+Table inventarios {
+  inve_codi int [default: null]
+  inve_fech date [default: null]
+}
+
+Table inventarios_articulos {
+  inve_codi int [default: null]
+  art_codi int [default: null]
+  artinve_stock float [default: null]
+  artinve_ctrl float [default: null]
+}
+
+Table iva {
+  iva_codi int [default: null]
+  iva_fech date [default: null]
+  iva_1 float [default: null]
+  iva_2 float [default: null]
+  iva_3 float [default: null]
+}
+
+Table localidades {
+  loca_codi int [pk, not null]
+  loca_nomb varchar [default: null]
+  provi_codi int [default: null]
+  cp_codi int [default: null]
+  zona_codi int [default: null]
+}
+
+Table pagos_saldosiniper {
+  pagsini_cod int [default: null]
+  pagg_codi int [default: null]
+  sini_cod int [default: null]
+  pagsini_imp float [default: null]
+  pagsini_parci int [default: null]
+}
+
+Table pagos_saldosiniprov {
+  pagsini_cod int [default: null]
+  pag_codi int [default: null]
+  sini_cod int [default: null]
+  pagsini_imp float [default: null]
+  pagsini_parci int [default: null]
+}
+
+Table pagosgas {
+  pagg_codi int [default: null]
+  pagg_fech date [default: null]
+  pagg_impo float [default: null]
+  pagg_sujret float [default: null]
+  per_codi int [default: null]
+  pagg_obser text
+  pagg_antic float [default: null]
+  pagg_dtosaf float [default: null]
+  pagg_dtoxpag float [default: null]
+  pagg_restsaf float [default: null]
+  pagg_totsaf float [default: null]
+}
+
+Table pagosgas_debintg {
+  pagdebi_cod int [pk, not null]
+  pagg_codi int [not null]
+  debg_codi int [not null]
+  pagdebi_imp float [default: null]
+  pagdebi_parci boolean [default: null]
+}
+
+Table pagosgas_gastos {
+  paggas_codi int [default: null]
+  pagg_codi int [default: null]
+  gas_codi int [default: null]
+  paggas_impo float [default: null]
+  paggas_parci int [default: null]
+}
+
+Table pagosgas_pagos {
+  pagpag_codi int [default: null]
+  pagg_codi int [default: null]
+  tippag_codi int [default: null]
+  ban_codi int [default: null]
+  suc_codi int [default: null]
+  chequenro varchar [default: null]
+  cheqid varchar [default: null]
+  movtippag_nro varchar [default: null]
+  movtippag_pza varchar [default: null]
+  movtippag_fvto date [default: null]
+  movtippag_imp float [default: null]
+  cuit_lib bigint [default: null]
+  recpag_codi int [default: null]
+
+  indexes {
+    (pagpag_codi) [unique]
+  }
+}
+
+Table pagosprov {
+  pag_codi int [default: null]
+  pag_fech date [default: null]
+  pag_impo float [default: null]
+  pag_sujret float [default: null]
+  prov_codi int [default: null]
+  pag_obser text
+  pag_antic float [default: null]
+  pag_dtosaf float [default: null]
+  pag_dtoxpag float [default: null]
+  pag_restsaf float [default: null]
+  pag_totsaf float [default: null]
+}
+
+Table pagosprov_debintc {
+  pagdebi_cod int [pk, not null]
+  pag_codi int [not null]
+  debc_codi int [not null]
+  pagdebi_imp float [default: null]
+  pagdebi_parci boolean [default: null]
+}
+
+Table pagosprov_pagos {
+  pagpag_codi int [default: null]
+  pag_codi int [default: null]
+  tippag_codi int [default: null]
+  ban_codi int [default: null]
+  suc_codi int [default: null]
+  chequenro varchar [default: null]
+  cheqid varchar [default: null]
+  movtippag_nro varchar [default: null]
+  movtippag_pza varchar [default: null]
+  movtippag_fvto date [default: null]
+  movtippag_imp float [default: null]
+  cuit_lib bigint [default: null]
+  recpag_codi int [default: null]
+}
+
+Table pagosprov_recepciones {
+  pagrec_codi int [default: null]
+  pag_codi int [default: null]
+  recep_codi int [default: null]
+  pagrecep_impo float [default: null]
+  pagrecep_parci int [default: null]
+}
+
+Table parametros {
+  param_codi int [default: null]
+  param_desc varchar [default: null]
+  param_impo float [default: null]
+  param_fec date [default: null]
+  param_fechora datetime [default: null]
+}
+
+Table pedidos {
+  ped_codi int [pk, not null]
+  ped_fech date [default: null]
+  ped_hora time [default: '23:59:59']
+  cli_codi int [default: null]
+  ped_dto float [default: null]
+  iva_codi int [default: null]
+  presup_codi int [default: null]
+  notaped_nro int [default: null]
+  tran_codi int [default: null]
+  flete_cargo varchar [default: null]
+  redespacho text
+  cumplido varchar [default: null]
+  ven_codi int [default: null]
+  porc_codi int [default: null]
+  otra_comi float [default: null]
+  ped_obser text
+  moneda varchar [default: null]
+  cotiz_dolar float [default: 0.0]
+  finalizado int [default: 0]
+}
+
+Table pedidos_articulos {
+  artped_codi int [pk, not null]
+  ped_codi int [default: null]
+  art_codi int [default: null]
+  artped_cant float [default: null]
+  artped_precio float [default: null]
+  alter_iva float [default: null]
+  artped_ent float [default: null]
+  artped_dasc text
+  dac_codi int [default: null]
+  artped_it int [default: 0]
+}
+
+Table pedidos_transportes {
+  pedtran_codi int [pk, not null]
+  ped_codi int [default: null]
+  tran_codi int [default: null]
+  flete_lugent text
+  flete_cargo varchar [default: null]
+}
+
+Table personas {
+  per_codi int [pk, not null]
+  per_desc varchar [default: null]
+  per_domi varchar [default: null]
+  loca_codi int [default: null]
+  per_cartel bigint [default: null]
+  per_tel1 bigint [default: null]
+  per_tel2 bigint [default: null]
+  per_cel varchar [default: null]
+  per_cuit bigint [default: null]
+  per_email varchar [default: null]
+  cond_codi int [default: null]
+  percepcion varchar [default: null]
+  dtoxpago float [default: null]
+  per_saldo float [default: null]
+  per_afvor float [default: null]
+  exento int [default: null]
+  per_ultiletra varchar [default: null]
+  per_ultipto int [default: null]
+}
+
+Table porcencomi {
+  porc_codi int [default: null]
+  porc_desc varchar [default: null]
+  porc_impo float [default: null]
+}
+
+Table presupuestos {
+  presup_codi int [pk, not null]
+  presup_fech date [default: null]
+  cli_codi int [default: null]
+  presup_ref text
+  presup_ofer text
+  presup_plent text
+  presup_lugent text
+  presup_cond text
+  presup_dto float [default: null]
+  presup_obser text
+  iva_codi int [default: null]
+  moneda varchar [default: null]
+  cotiz_dolar float [default: 0.0]
+  presup_util float [default: 0.0]
+  presup_ultact date [default: null]
+}
+
+Table presupuestos_articulos {
+  presup_codi int [default: null]
+  art_codi int [default: null]
+  artpres_precio float [default: null]
+  artpres_cant float [default: null]
+  artpres_dasc text
+  alternativa varchar [default: null]
+  nro_it int [default: null]
+  nro_regis int [default: null]
+  alter_iva float [default: null]
+  dac_codi int [default: null]
+}
+
+
+Table proveedores {
+  prov_codi int [pk, not null]
+  prov_nomb varchar [default: null]
+  prov_domi varchar [default: null]
+  loca_codi int [default: null]
+  prov_cartel bigint [default: null]
+  prov_tel1 bigint [default: null]
+  prov_tel2 bigint [default: null]
+  prov_cel varchar [default: null]
+  prov_cuit bigint [default: null]
+  prov_email varchar [default: null]
+  cond_codi int [default: null]
+  percepcion varchar [default: null]
+  dtoxpago float [default: null]
+  prov_saldo float [default: null]
+  prov_afvor float [default: null]
+  prov_ultiletra varchar [default: null]
+  prov_ultipto int [default: null]
+  prov_deta text
+}
+
+Table provincias {
+  provi_codi int [pk, not null]
+  provi_nomb varchar [default: null]
+}
+
+Table recepciones {
+  recep_codi int [pk, not null]
+  recep_fec date [default: null]
+  prov_codi int [default: null]
+  recep_obser text
+  recep_dto float [default: null]
+  prov_tipfac varchar [default: null]
+  prov_pto int [default: null]
+  prov_fac int [default: null]
+  prov_rto int [default: null]
+  iva_codi int [default: null]
+  perc_iva float [default: null]
+  perc_btos float [default: null]
+  imp_pag float [default: null]
+  pagado varchar [default: null]
+  recep_conc varchar [default: null]
+  cotiz_dolar float [default: null]
+  recep_impng float [default: null]
+  recep_ivari float [default: null]
+  recep_ivarni float [default: null]
+  neto_1 float [default: null]
+  neto_2 float [default: null]
+  recep_tot float [default: null]
+  recep_dtopag float [default: null]
+  cc int [default: null]
+  anulado varchar [default: null]
+}
+
+Table recepciones_articulos {
+  recep_codi int [default: null]
+  art_codi int [default: null]
+  artrecep_cant float [default: null]
+  artrecep_prec float [default: null]
+  artrecep_dasc text
+  concepto varchar [default: null]
+  recep_sstock varchar [default: null]
+  dap_codi int [default: null]
+  calciva int [default: null]
+  orden_codi int [default: null]
+}
+
+Table recibos {
+  rec_codi int [pk, not null]
+  rec_nro int [default: null]
+  rec_fec date [default: null]
+  rec_impo float [default: null]
+  cli_codi int [default: null]
+  rec_tipo int [default: null]
+  rec_antic float [default: null]
+  rec_obser text
+  rec_dtosaf float [default: null]
+  rec_restsaf float [default: null]
+}
+
+Table recibos_debintv {
+  recdebi_cod int [pk, not null]
+  rec_codi int [not null]
+  debv_codi int [not null]
+  recdebi_imp float [default: null]
+  recdebi_parci boolean [default: null]
+}
+
+Table recibos_facturas {
+  recfac_codi int [default: null]
+  rec_codi int [default: null]
+  fac_codi int [default: null]
+  recfac_impo float [default: null]
+  recfac_parci int [default: null]
+}
+
+Table recibos_pagos {
+  recpag_codi int [default: null]
+  rec_codi int [default: null]
+  tippag_codi int [default: null]
+  ban_codi int [default: null]
+  suc_codi int [default: null]
+  movtippag_nro varchar [default: null]
+  chequenro varchar [default: null]
+  cheqid varchar [default: null]
+  movtippag_pza varchar [default: null]
+  movtippag_fvto date [default: null]
+  movtippag_imp float [default: null]
+  cuit_lib bigint [default: null]
+  pag_codi int [default: null]
+  pagg_codi int [default: 0]
+  gas_codi int [default: null]
+  recpag_nalo int [default: null]
+  dep_codi int [not null, default: 0]
+  activo varchar [default: null]
+}
+
+Table recibos_saldosiniciales {
+  recsini_cod int [default: null]
+  rec_codi int [default: null]
+  sini_cod int [default: null]
+  recsini_imp float [default: null]
+  recsini_parci int [default: null]
+}
+
+Table regulaproserv {
+  regpg_codi int [pk, not null]
+  regpg_fech date [default: null]
+  regpg_conc varchar [default: null]
+  regpg_deta text
+  regpg_impo float [default: null]
+  per_codi int [default: null]
+  ctacte varchar [default: null]
+}
+
+Table regulaprov {
+  regp_codi int [pk, not null]
+  regp_fech date [default: null]
+  regp_conc varchar [default: null]
+  regp_deta text
+  regp_impo float [default: null]
+  prov_codi int [default: null]
+  ctacte varchar [default: null]
+}
+
+Table regularizaciones {
+  reg_codi int [default: null]
+  reg_fech date [default: null]
+  reg_conc varchar [default: null]
+  reg_impo float [default: null]
+  cli_codi int [default: null]
+  reg_deta text
+  ctacte varchar [default: null]
+}
+
+Table remitos {
+  rem_codi int [pk, not null]
+  rem_nro int [default: null]
+  rem_pto int [default: null]
+  rem_fech date [default: null]
+  fac_codi int [default: null]
+  tran_codi int [default: null]
+  cli_codi int [default: null]
+  ped_codi int [default: 0]
+  prov_codi int [default: null]
+  flete_cargo varchar [default: null]
+  flete_peso float [default: null]
+  flete_valor float [default: null]
+  flete_lugent text
+  rem_observ text
+  anulado varchar [default: null]
+  facturado boolean [default: false]
+}
+
+Table remitos_articulos {
+  rer_codi int [pk, not null]
+  rem_codi int [default: null]
+  art_codi int [default: null]
+  rem_nro int [default: null]
+  artrem_cant float [default: null]
+  artrem_dasc text
+  dac_codi int [default: null]
+  dap_codi int [default: null]
+  artrem_ddesc text
+  artrem_sstock varchar [default: null]
+  artped_codi int [default: null]
+  facturado boolean [default: false]
+}
+
+Table remitos_transportes {
+  rem_codi int [default: null]
+  tran_codi int [default: null]
+  flete_lugent text
+  flete_cargo varchar [default: null]
+}
+
+Table retenciones {
+  ret_codi int [default: null]
+  ret_fech date [default: null]
+  prov_codi int [default: null]
+  ret_comp int [default: null]
+  ret_monto float [default: null]
+}
+
+Table rfc {
+  rfc_codi int [pk, not null]
+  rfc_fec date [default: null]
+  prov_codi int [default: null]
+  pag_codi int [default: null]
+  rfc_impng float [default: null]
+  rfc_neto1 float [default: null]
+  rfc_neto2 float [default: null]
+  rfc_ivari float [default: null]
+  rfc_ivarni float [default: null]
+}
+
+Table rubros {
+  rub_codi int [pk, not null]
+  rub_desc varchar [default: null]
+}
+
+Table saldosiniciales {
+  sini_cod int [default: null]
+  sini_fech date [default: null]
+  cli_codi int [default: null]
+  cli_sal float [default: null]
+  sini_pag float [default: null]
+  anulado varchar [default: null]
+  pagado varchar [default: null]
+}
+
+Table saldosiniper {
+  sini_cod int [default: null]
+  sini_fech date [default: null]
+  per_sal float [default: null]
+  sini_pag float [default: null]
+  per_codi int [default: null]
+  pagado varchar [default: null]
+  anulado varchar [default: null]
+}
+
+Table saldosiniprov {
+  sini_cod int [default: null]
+  sini_fech date [default: null]
+  prov_sal float [default: null]
+  sini_pag float [default: null]
+  prov_codi int [default: null]
+  pagado varchar [default: null]
+  anulado varchar [default: null]
+}
+
+Table sucbancos {
+  suc_codi int [default: null]
+  suc_nomb varchar [default: null]
+  suc_domi varchar [default: null]
+  ban_codi int [default: null]
+  suc_bansuc varchar [default: null]
+}
+
+Table tareas {
+  tar_codi int [pk, not null]
+  tar_desc varchar [default: null]
+  tar_fech datetime [default: null]
+  tar_estado int [default: 0]
+}
+
+Table tipcbteafip {
+  tipcbte_codi int [pk, not null]
+  tipcbte_desc varchar [default: null]
+  tipcbte_nro int [default: null]
+}
+
+Table tiposgastos {
+  tipgas_codi int [default: null]
+  tipgas_desc varchar [default: null]
+}
+
+Table tiposmovimientos {
+  tipmov_codi int [pk, not null]
+  tipmov_desc varchar [default: null]
+}
+
+Table tipospago {
+  tippag_codi int [default: null]
+  tippag_desc varchar [default: null]
+}
+
+Table transportes {
+  tran_codi int [pk, not null]
+  tran_nomb varchar [default: null]
+  tran_domi varchar [default: null]
+  loca_codi int [default: null]
+  tran_cartel bigint [default: null]
+  tran_tel1 bigint [default: null]
+  tran_tel2 bigint [default: null]
+  tran_cel varchar [default: null]
+  tran_cuit bigint [default: null]
+  tran_email varchar [default: null]
+  cond_codi int [default: null]
+  tran_deta text
+}
+
+Table usuarios {
+  usu_codi int [pk, not null, increment]
+  usu_nomb varchar [default: null]
+  usu_estado int [default: 0]
+  usu_canapp int [default: 0]
+  usu_categ varchar [default: null]
+}
+
+Table vendedores {
+  ven_codi int [pk, not null]
+  ven_nomb varchar [default: null]
+}
+
+Table zonas {
+  zona_codi int [pk, not null]
+  zona_desc varchar [default: null]
+  ven_codi int [default: null]
+}
+
+
+//////////////////////////////////////////////////////////////
+//   MODELO DE FABRICACIÓN + PROCESOS TERCERIZADOS (DBML)
+//////////////////////////////////////////////////////////////
+
+Table insumos {
+  insu_codi int [pk]
+  insu_desc varchar(45)
+  insu_unimed varchar(2)
+  insu_stock double(15,3)
+  insu_stmin double(15,3)
+  insu_costo double(15,3)
+  insu_compras double(15,3)
+  insu_ultcpra double(15,3)
+  insu_rub_id int
+  insu_inrota int
+  insu_activo int
+  insu_detalle varchar(254)
+}
+
+Table insu_rubros {
+  insu_rub_id int [pk, increment]
+  insu_rub_desc varchar(45)
+}
+
+Table insu_historicostock {
+  hs_codi int [pk, increment]
+  insu_codi int [ref: > insumos.insu_codi]
+  hs_fecha datetime
+  hs_tipmov varchar(1)
+  hs_anterior double(15,3)
+  hs_cant double(15,3)
+  hs_saldo double(15,3)
+  hs_obser text
+  hs_deta text 
+  insu_ajuscodi int
+  recep_codi int
+  rem_codi int
+  cond_codi int
+  codi_clipro int
+}
+
+Table insu_ajustes {
+  insu_ajuscodi int [pk, increment]
+  insu_ajusfech date
+  insu_ajusconc varchar(1)
+  insu_ajusobserv text
+}
+
+Table insu_ajus_insumos {
+  insu_ajuscodi int [ref: > insu_ajustes.insu_ajuscodi]
+  insu_codi int [ref: > insumos.insu_codi]
+  insu_ajus_cant double(11,3)
+  indexes {
+    (insu_ajuscodi) [pk]
+  }
+}
+
+Table insu_articulos {
+  insuart_codi int [pk, increment]
+  insu_codi int [ref: > insumos.insu_codi]
+  art_codi int [ref: > articulos.art_codi]
+  cantidad decimal(15,3)
+  fecha_asociacion datetime
+  activo tinyint(1)
+}
+
+Table insumos_proveedores {
+  insuprov_codi int [pk, increment]
+  insu_codi int [ref: > insumos.insu_codi] 
+  prov_codi int [ref: > proveedores.prov_codi]
+  insuprov_costo double(15,3)
+  insuprov_moneda enum('P','D')
+  insuprov_lista int //campo bandera para marcar un proveedor de insumo activo
+  insuprov_fechact date
+  insuprov_observ text
+  activo tinyint(1)
+}
+
+Table insu_prov_histocosto {
+  hist_codi int [pk, increment]
+  hist_fecha datetime
+  hist_costo_anterior double(15,3)
+  hist_costo_nuevo double(15,3)
+  hist_moneda int(1)
+  insuprov_codi int
+}
+
+Table art_metricas {
+  art_codi                int        [pk, note: 'Código del artículo']
+  vend_6m                 int        [note: 'Ventas últimos 6 meses']
+  vend_3m                 int        [note: 'Ventas últimos 3 meses']
+  vend_prev_3m            int        [note: 'Ventas de los 3 meses previos']
+  tendencia_3m            int        [note: 'Vend_3m - Vend_prev_3m']
+  meses_con_venta         int        [note: 'Meses con ventas en la ventana de 6m']
+
+  rotacion                int        [note: 'Clasificación ABC (1–5)']
+  rotacion_pct            decimal(12,2) [note: 'Velocidad relativa de salida']
+
+  prom_mensual            decimal(12,2) [note: 'Promedio mensual basado en 6 meses']
+
+  dias_ultima_venta       int        [note: 'Días desde la última venta']
+
+  stock_actual            decimal(12,2) [note: 'Stock actual']
+  stock_min               decimal(12,2) [note: 'Stock mínimo']
+  posicion                decimal(12,2) [note: 'Stock real proyectado']
+
+  comprado_pendiente      decimal(12,2) [note: 'Compras pendientes de entrega']
+  pedidos_pend            decimal(12,2) [note: 'Pedidos de clientes pendientes']
+
+  comprado_3m             decimal(12,2) [note: 'Compras últimos 3 meses']
+  comprado_6m             decimal(12,2) [note: 'Compras últimos 6 meses']
+
+  score_compra            decimal(10,2) [note: 'Score final 0–100']
+
+  fecha_calc              datetime   [note: 'Fecha de cálculo']
+}
+
+
+//////////////////////////////////////////////////////////////
+//   FABRICACIÓN Y PROCESOS TERCERIZADOS
+//////////////////////////////////////////////////////////////
+
+Table orden_fabricacion {
+  of_codi int [pk, increment]
+  orden_codi int [ref: > compras.orden_codi]
+  art_codi int [ref: > articulos.art_codi]
+  of_cant_fabricada double(15,3)
+  of_fecha_inicio datetime
+  of_fecha_fin datetime
+  of_estado int(1)
+  of_observaciones text
+}
+
+Table procesos_externos {
+  pe_codi int [pk, increment]
+  of_codi int [ref: > orden_fabricacion.of_codi]
+  prov_codi int [ref: > proveedores.prov_codi]
+  pe_tipo enum('GALVANIZADO','PINTURA','ZINCADO','OTRO')
+  pe_fecha_envio datetime
+  pe_estado enum('EN_PROCESO','PARCIAL','FINALIZADO')
+  pe_cantidad_total int
+  pe_observaciones text
+}
+
+Table procesos_externos_detalle {
+  procext_det_codi int [pk, increment]
+  pe_codi int [ref: > procesos_externos.pe_codi]
+  art_codi int [ref: > articulos.art_codi]
+  insu_codi int 
+  ped_fecha_envio datetime
+  ped_cantidad_enviada int
+  ped_cantidad_recibida int
+  ped_estado enum('PENDIENTE','PARCIAL','RECIBIDO')
+  ped_observaciones text
+}
+
+Table procesos_externos_movimientos {
+  pem_codi int [pk, increment]
+  procext_det_codi int [ref: > procesos_externos_detalle.procext_det_codi]
+  pem_tipo enum('ENVIO','RECEPCION')
+  pem_fecha datetime
+  pem_cantidad double(15,3)
+  pem_observaciones text
+}
+
+//////////////////////////////////////////////////////////////
+//   RELACIONES EXTERNAS (DE TU SISTEMA EXISTENTE)
+//////////////////////////////////////////////////////////////
+
+
+Ref: "articulos"."art_codi" < "facturas_articulos"."art_codi"
+
+Ref: "articulos"."art_codi" <> "articulos_clientes"."art_codi"
+
+Ref: "articulos"."art_codi" <> "ajustes_articulos"."art_codi"
+
+Ref: "articulos"."art_codi" < "articulos_proveedores"."art_codi"
+
+Ref: "vendedores"."ven_codi" < "zonas"."ven_codi"
+
+Ref: "localidades"."loca_codi" < "personas"."loca_codi"
+
+Ref: "localidades"."loca_codi" < "proveedores"."loca_codi"
+
+Ref: "provincias"."provi_codi" < "localidades"."provi_codi"
+
+Ref: "codipostales"."cp_codi" < "localidades"."cp_codi"
+
+Ref: "zonas"."zona_codi" < "localidades"."zona_codi"
+
+Ref: "condiva"."cond_codi" < "proveedores"."cond_codi"
+
+Ref: "rubros"."rub_codi" < "articulos"."rub_codi"
+
+Ref: "condiva"."cond_codi" < "personas"."cond_codi"
+
+Ref: "localidades"."loca_codi" < "clientes"."loca_codi"
+
+Ref: "condiva"."cond_codi" < "clientes"."cond_codi"
+
+Ref: "zonas"."zona_codi" < "clientes"."zona_codi"
+
+Ref: "clientes"."cli_codi" < "presupuestos"."cli_codi"
+
+Ref: "iva"."iva_codi" < "presupuestos"."iva_codi"
+
+Ref: "articulos"."art_codi" <> "presupuestos_articulos"."art_codi"
+
+Ref: "presupuestos_articulos"."presup_codi" <> "presupuestos"."presup_codi"
+
+Ref: "condiva"."cond_codi" < "transportes"."cond_codi"
+
+Ref: "localidades"."loca_codi" < "transportes"."loca_codi"
+
+Ref: "remitos_transportes"."tran_codi" <> "transportes"."tran_codi"
+
+Ref: "remitos"."rem_codi" <> "remitos_transportes"."rem_codi"
+
+Ref: "clientes"."cli_codi" < "remitos"."cli_codi"
+
+Ref: "proveedores"."prov_codi" < "remitos"."prov_codi"
+
+Ref: "transportes"."tran_codi" < "remitos"."tran_codi"
+
+Ref: "facturas"."fac_codi" < "remitos"."fac_codi"
+
+Ref: "clientes"."cli_codi" < "facturas"."cli_codi"
+
+Ref: "iva"."iva_codi" < "facturas"."iva_codi"
+
+Ref: "facturas"."ped_codi" < "pedidos"."ped_codi"
+
+Ref: "porcencomi"."porc_codi" < "facturas"."porc_codi"
+
+Ref: "clientes"."cli_codi" < "pedidos"."cli_codi"
+
+Ref: "iva"."iva_codi" < "pedidos"."iva_codi"
+
+Ref: "presupuestos"."presup_codi" < "pedidos"."presup_codi"
+
+Ref: "vendedores"."ven_codi" < "pedidos"."ven_codi"
+
+Ref: "transportes"."tran_codi" < "pedidos"."tran_codi"
+
+Ref: "articulos_clientes"."cli_codi" <> "clientes"."cli_codi"
+
+Ref: "personas"."per_codi" <> "articulos_personas"."per_codi"
+
+Ref: "proveedores"."prov_codi" <> "articulos_proveedores"."prov_codi"
+
+Ref: "articulos_proveedores_descuentos"."artpro_codi" <> "articulos_proveedores"."artpro_codi"
+
+Ref: "articulos_proveedores_descuentos"."dto_codi" <> "descuentos"."dto_codi"
+
+Ref: "vendedores"."ven_codi" < "facturas"."ven_codi"
+
+Ref: "desc_articulos_clientes"."dac_codi" <> "presupuestos_articulos"."dac_codi"
+
+Ref: "articulos_clientes"."artcli_codi" <> "desc_articulos_clientes"."artcli_codi"
+
+Ref: "comisiones"."com_codi" < "facturas"."com_codi"
+
+Ref: "proveedores"."prov_codi" < "compras"."prov_codi"
+
+Ref: "transportes"."tran_codi" < "compras"."tran_codi"
+
+Ref: "iva"."iva_codi" < "compras"."iva_codi"
+
+Ref: "ajustes"."aju_codi" <> "ajustes_articulos"."aju_codi"
+
+Ref: "articulos"."art_codi" <> "compras_articulos"."art_codi"
+
+Ref: "compras_articulos"."dap_codi" <> "desc_articulos_proveedores"."dap_codi"
+
+Ref: "articulos_proveedores"."artpro_codi" <> "desc_articulos_proveedores"."artpro_codi"
+
+Ref: "bancos"."ban_codi" < "sucbancos"."ban_codi"
+
+Ref: "remitos"."rem_codi" <> "remitos_articulos"."rem_codi"
+
+Ref: "remitos_articulos"."art_codi" <> "articulos"."art_codi"
+
+Ref: "remitos_articulos"."artped_codi" <> "pedidos_articulos"."artped_codi"
+
+Ref: "transportes"."tran_codi" <> "pedidos_transportes"."tran_codi"
+
+Ref: "pedidos"."ped_codi" <> "pedidos_transportes"."ped_codi"
+
+Ref: "pedidos_articulos"."art_codi" <> "articulos"."art_codi"
+
+Ref: "pedidos"."ped_codi" <> "pedidos_articulos"."ped_codi"
+
+Ref: "desc_articulos_clientes"."dac_codi" <> "pedidos_articulos"."dac_codi"
+
+Ref: "facturas"."fac_codi" <> "facturas_articulos"."fac_codi"
+
+Ref: "desc_articulos_clientes"."dac_codi" <> "facturas_articulos"."dac_codi"
+
+Ref: "pedidos_articulos"."artped_codi" <> "facturas_articulos"."artped_codi"
+
+Ref: "histostock"."art_codi" < "articulos"."art_codi"
+
+Ref: "histostock"."aju_codi" < "ajustes"."aju_codi"
+
+Ref: "compras_articulos"."orden_codi" <> "compras"."orden_codi"
+
+Ref: "histostock"."rem_codi" < "remitos"."rem_codi"
+
+Ref: "histostock"."fac_codi" < "facturas"."fac_codi"
+
+Ref: "histostock"."recep_codi" < "recepciones"."recep_codi"
+
+Ref: "condiva"."cond_codi" < "histostock"."cond_codi"
+
+Ref: "remitos"."rem_codi" < "fabricados"."rem_codi"
+
+Ref: "regularizaciones"."cli_codi" < "clientes"."cli_codi"
+
+Ref: "retenciones"."prov_codi" < "proveedores"."prov_codi"
+
+Ref: "bancos"."ban_codi" < "depositos"."banc_codi"
+ 
+Ref: "debintv"."debv_codi" < "debintv_items"."debv_codi"
+
+Ref: "debintv"."cli_codi" < "clientes"."cli_codi"
+
+Ref: "insu_rubros"."insu_rub_id" < "insumos"."insu_rub_id"
+
+Ref: "facturas_articulos"."far_codi" <> "facar_remar"."far_codi"
+
+Ref: "facar_remar"."rer_codi" <> "remitos_articulos"."rer_codi"
+
+Ref: "remitos_articulos"."dac_codi" <> "desc_articulos_clientes"."dac_codi"
+
+Ref: "remitos_articulos"."dap_codi" <> "desc_articulos_proveedores"."dap_codi"
+
+Ref: "recibos_facturas"."rec_codi" <> "recibos"."rec_codi"
+
+Ref: "recibos_facturas"."fac_codi" <> "facturas"."fac_codi"
+
+Ref: "personas"."per_codi" < "pagosgas"."per_codi"
+
+Ref: "pagosgas_gastos"."pagg_codi" <> "pagosgas"."pagg_codi"
+
+Ref: "proveedores"."prov_codi" < "pagosprov"."prov_codi"
+
+Ref: "tipospago"."tippag_codi" < "pagosgas_pagos"."tippag_codi"
+
+Ref: "pagosprov_pagos"."pag_codi" < "pagosprov"."pag_codi"
+
+Ref: "pagosprov_pagos"."tippag_codi" < "tipospago"."tippag_codi"
+
+Ref: "bancos"."ban_codi" < "pagosgas_pagos"."ban_codi"
+
+Ref: "sucbancos"."suc_codi" < "pagosgas_pagos"."suc_codi"
+
+Ref: "pagosgas"."pagg_codi" < "pagosgas_pagos"."pagg_codi"
+
+Ref: "pagosgas_pagos"."recpag_codi" < "recibos_pagos"."recpag_codi"
+
+Ref: "gastos"."gas_codi" < "pagosgas_gastos"."gas_codi"
+
+Ref: "personas"."per_codi" < "gastos"."per_codi"
+
+Ref: "pagosprov"."pag_codi" < "recibos_pagos"."pag_codi"
+
+Ref: "recibos_pagos"."pagg_codi" < "pagosgas"."pagg_codi"
+
+Ref: "bancos"."ban_codi" < "pagosprov_pagos"."ban_codi"
+
+Ref: "sucbancos"."suc_codi" < "pagosprov_pagos"."suc_codi"
+
+Ref: "tiposgastos"."tipgas_codi" < "gastos"."tipgas_codi"
+
+Ref: "iva"."iva_codi" < "gastos"."iva_codi"
+
+Ref: "gastos"."gas_codi" < "recibos_pagos"."gas_codi"
+
+Ref: "recibos_pagos"."dep_codi" < "depositos"."dep_codi"
+
+Ref: "bancos"."ban_codi" < "recibos_pagos"."ban_codi"
+
+Ref: "sucbancos"."suc_codi" < "recibos_pagos"."suc_codi"
+
+Ref: "proveedores"."prov_codi" < "recepciones"."prov_codi"
+
+Ref: "iva"."iva_codi" < "recepciones"."iva_codi"
+
+Ref: "proveedores"."prov_codi" < "rfc"."prov_codi"
+
+Ref: "pagosprov"."pag_codi" < "rfc"."pag_codi"
+
+Ref: "pagosprov"."pag_codi" <> "pagosprov_recepciones"."pag_codi"
+
+Ref: "recepciones"."recep_codi" <> "pagosprov_recepciones"."recep_codi"
+
+Ref: "pagosprov_debintc"."pag_codi" <> "pagosprov"."pag_codi"
+
+Ref: "pagosprov_debintc"."debc_codi" < "debintc"."debc_codi"
+
+Ref: "debintc"."prov_codi" < "proveedores"."prov_codi"
+
+Ref: "personas"."per_codi" < "debintg"."per_codi" 
+ 
+Ref: "debintc"."debc_codi" < "debintc_items"."debc_codi"
+
+Ref: "remitos_articulos"."rer_codi" < "fabricados_compras_articulos"."rer_codi"
+
+Ref: "fabricados_compras_articulos"."artord_codi" <> "compras_articulos"."artord_codi"
+
+Ref: "debintg"."debg_codi" <> "debintg_items"."debg_codi"
+
+Ref: "vendedores"."ven_codi" < "comisiones"."ven_codi"
+
+Ref: "insumos_proveedores"."insuprov_codi" <> "insu_prov_histocosto"."insuprov_codi"
+
+Ref: "articulos_proveedores"."artpro_codi" < "histocosto"."artpro_codi"
+
+Ref: "pagosgas"."pagg_codi" < "pagosgas_debintg"."pagg_codi"
+
+Ref: "debintg"."debg_codi" <> "pagosgas_debintg"."debg_codi"
+
+Ref: "articulos"."art_codi" < "recepciones_articulos"."art_codi"
+
+Ref: "desc_articulos_proveedores"."dap_codi" <> "recepciones_articulos"."dap_codi"
+
+Ref: "gastos"."gas_codi" < "gastos_pagos"."gas_codi"
+
+Ref: "tiposgastos"."tipgas_codi" <> "gastos_pagos"."tipgas_codi"
+
+Ref: "bancos"."ban_codi" < "gastos_pagos"."ban_codi"
+ 
+Ref: "recibos_debintv"."rec_codi" < "recibos"."rec_codi"
+
+Ref: "debintv"."debv_codi" < "recibos_debintv"."debv_codi"
+
+Ref: "clientes"."cli_codi" < "saldosiniciales"."cli_codi"
+
+Ref: "personas"."per_codi" < "saldosiniper"."per_codi"
+
+Ref: "personas"."per_codi" < "regulaproserv"."per_codi"
+
+Ref: "recibos"."rec_codi" < "recibos_saldosiniciales"."rec_codi"
+ 
+Ref: "pedidos"."ped_codi" < "remitos"."ped_codi"
+
+Ref: "proveedores"."prov_codi" < "regulaprov"."prov_codi"
+
+Ref: "porcencomi"."porc_codi" < "pedidos"."porc_codi"
+
+Ref: "proveedores"."prov_codi" < "saldosiniprov"."prov_codi"
+
+Ref: "pagosgas"."pagg_codi" < "pagos_saldosiniper"."pagg_codi"
+
+Ref: "recibos_pagos"."tippag_codi" <> "tipospago"."tippag_codi"
+
+Ref: "recibos"."rec_codi" < "recibos_pagos"."rec_codi"
+
+Ref: "pagosprov"."pag_codi" <> "pagos_saldosiniprov"."pag_codi"
+
+Ref: "saldosiniper"."sini_cod" < "pagos_saldosiniper"."sini_cod"
+
+Ref: "saldosiniprov"."sini_pag" < "pagos_saldosiniprov"."sini_cod"
+
+Ref: "saldosiniciales"."sini_cod" < "recibos_saldosiniciales"."sini_cod"
+
+Ref: "clientes"."cli_codi" < "recibos"."cli_codi"
+
+Ref: "condiva"."cond_codi" < "insu_historicostock"."cond_codi"
+
+Ref: "remitos"."rem_codi" < "insu_historicostock"."rem_codi"
+
+Ref: "recepciones"."recep_codi" < "insu_historicostock"."recep_codi"
+
+Ref: "insumos"."insu_codi" < "procesos_externos_detalle"."insu_codi"
+
+Ref: "pagosprov_pagos"."recpag_codi" < "recibos_pagos"."recpag_codi"
+
+Ref: "art_metricas"."art_codi" <> "articulos"."art_codi"
+
+//////////////////////////////////////////////////////////////
+//   DICCIONARIO DE ABREVIACIONES Y SINÓNIMOS (NUEVO)
+//////////////////////////////////////////////////////////////
+
+Table articulo_abreviaciones {
+  abb_id int [pk, not null, increment]
+  art_codi int [not null, ref: > articulos.art_codi]
+  abreviacion varchar(50) [not null]
+  palabra_completa varchar(255) [not null]
+  peso int [default: 1]
+  notas text
+  activo int [default: 1]
+
+  Indexes {
+    (abreviacion)
+    (art_codi)
+  }
+}
+
+Table articulo_sinonimos {
+  sin_id int [pk, not null, increment]
+  art_codi int [not null, ref: > articulos.art_codi]
+  sinonimo varchar(255) [not null]
+  tipo varchar(50) [default: 'cliente'] // cliente / interno / tecnico
+  activo int [default: 1]
+
+  Indexes {
+    (sinonimo)
+    (art_codi)
+  }
+}
+
+Table diccionario_terminos {
+  term_id int [pk, not null, increment]
+  termino varchar(255) [not null]
+  tipo varchar(50) [default: null] // material / medida / unidad / accion
+  valor varchar(255) [default: null]
+  notas text
+}
+
+//////////////////////////////////////////////////////////////
+//   TABLAS IA PARA PRESUPUESTOS INTELIGENTES
+//////////////////////////////////////////////////////////////
+
+Table ia_presupuestos_meta {
+  ia_presu_id int [pk, not null, increment]
+  presup_codi int [ref: > presupuestos.presup_codi]
+  cli_codi int [ref: > clientes.cli_codi]
+  whatsapp_number varchar(30) [default: null]
+  canal varchar(20) [default: 'WHATSAPP']
+  raw_text text
+  origen_archivo varchar(255) [default: null]
+  ia_version varchar(50) [default: 'v1']
+  confianza_global decimal(5,2) [default: 0.00]
+  estado_revision varchar(15) [default: 'PENDIENTE']
+
+  created_at datetime [default: `CURRENT_TIMESTAMP`]
+  updated_at datetime [default: `CURRENT_TIMESTAMP`]
+}
+
+Table ia_matching_log {
+  match_id int [pk, not null, increment]
+  ia_presu_id int [ref: > ia_presupuestos_meta.ia_presu_id]
+  linea_original text
+  cantidad_solicitada decimal(15,3) [default: 1]
+
+  art_codi_sugerido int [ref: > articulos.art_codi]
+  confianza_match decimal(5,2) [default: 0.00]
+  estado varchar(15) [default: 'AUTO'] // AUTO / MANUAL / REVISADO
+
+  art_codi_final int [ref: > articulos.art_codi]
+  nota_vendedor text
+
+  created_at datetime [default: `CURRENT_TIMESTAMP`]
+}
+
+Table ia_alias_articulos {
+  alias_id int [pk, not null, increment]
+  art_codi int [ref: > articulos.art_codi]
+  alias_text varchar(255)
+
+  fuente varchar(20) [default: 'IA'] // IA / CLIENTE / SISTEMA
+  cli_codi int [ref: > clientes.cli_codi]
+  region varchar(100)
+  confianza decimal(5,2) [default: 100.00]
+
+  created_at datetime [default: `CURRENT_TIMESTAMP`]
+  created_by varchar(50) [default: 'IA']
+}
+
+Table pedidos_preparacion {
+  prep_codi int [pk, not null, increment]         // ID interno del proceso de preparación
+  ped_codi int [not null, ref: > pedidos.ped_codi]   // Pedido asociado
+  cli_codi int [not null, ref: > clientes.cli_codi] // Cliente (copia del pedido para performance)
+  fecha_creado datetime [not null]                // Fecha y hora en que nació el pedido
+  usu_codi int [ref: > usuarios.usu_codi]         // Usuario asignado a preparar
+  estado int [not null, default: '0'] // pendiente / en_proceso / completado
+  tran_codi int                                   // Nombre transporte o método
+  cant_items int [default: 0]                     // Cache: Cantidad de ítems del pedido
+  observaciones text                              // Notas internas del área de preparación
+} 
+
+Ref: "transportes"."tran_codi" < "pedidos_preparacion"."tran_codi"
+
+Table notificaciones {
+  noti_id        int [pk, not null, increment]   // ID autoincremental
+  titulo         varchar(100)                    // Título visible del mensaje
+  mensaje        varchar(255)                    // Contenido principal
+  tipo           varchar(20) [default: 'info']   // info | warning | error | success
+  prioridad      tinyint [default: 1]            // 1 baja | 2 media | 3 alta
+  leida          tinyint [default: 0]            // 0 no leída | 1 leída
+  fija           tinyint [default: 0]            // Si es fija, no se autocierra
+  expira         tinyint [default: 0]            // Si expira automáticamente
+  fecha_expira   datetime                        // Cuándo expira
+  fecha_crea     datetime [default: `CURRENT_TIMESTAMP`] // Marca temporal de creación
+  usu_codi       varchar(30)                     // Usuario destinatario (VFP)
+  modulo_accion  varchar(30)                     // Módulo de origen (PEDIDOS, FACTURAS)
+  param_accion   varchar(100)                    // Datos para acción: ej PEDI_CODI=1234                    // Nombre de sonido asociado
+}
+
+Ref: "usuarios"."usu_codi" < "notificaciones"."usu_codi"

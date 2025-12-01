@@ -27,7 +27,7 @@ from apps.core.pagination import Pagination
 from ...filters import UserFilter
 from apps.users.docs.user_doc import (
     get_user_profile_doc, list_users_doc, create_user_doc,
-    manage_user_doc, image_delete_doc, image_replace_doc
+    manage_user_doc, image_delete_doc, image_replace_doc, user_lookup_doc
 )
 
 logger = logging.getLogger(__name__)
@@ -43,6 +43,7 @@ def profile_view(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+@extend_schema(**user_lookup_doc)
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_lookup_view(request):

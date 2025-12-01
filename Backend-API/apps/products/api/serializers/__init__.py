@@ -12,3 +12,11 @@ from .dictionary_serializer import (
 )
 from .stock_history_serializer import ProductStockHistorySerializer
 from .customer_product_serializer import CustomerProductSerializer
+from .supplier_product_serializer import (
+    SupplierProductSerializer,
+    SupplierProductDetailSerializer,
+    SupplierProductCreateSerializer,
+    SupplierProductUpdateSerializer,
+    SupplierProductPriceHistorySerializer,
+    SupplierProductPriceHistoryCreateSerializer,
+)
